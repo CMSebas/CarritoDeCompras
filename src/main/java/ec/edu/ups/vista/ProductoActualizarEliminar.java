@@ -1,12 +1,10 @@
 package ec.edu.ups.vista;
 
-import ec.edu.ups.controlador.ProductoController;
-
 import javax.swing.*;
 
-public class ProductoActualizarEliminar extends JFrame {
+public class ProductoActualizarEliminar extends JInternalFrame {
 
-    private JPanel panelPrincipal;
+    private JPanel panelPrincipalAct;
     private JTextField jTxfCodigo;
     private JTextField jTxfNombre;
     private JTextField jTxfPrecio;
@@ -16,13 +14,15 @@ public class ProductoActualizarEliminar extends JFrame {
     private JLabel jLabel1;
 
     public ProductoActualizarEliminar() {
-        setContentPane(panelPrincipal);
+        setContentPane(panelPrincipalAct);
         setTitle("Datos del Producto");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
-        //setResizable(false);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        setClosable(true);
+        setIconifiable(true);
+        setResizable(true);
+        //setLocationRelativeTo(null);
+        //setVisible(true);
         //pack();
 
 
@@ -35,11 +35,11 @@ public class ProductoActualizarEliminar extends JFrame {
 
 
     public JPanel getPanelPrincipal() {
-        return panelPrincipal;
+        return panelPrincipalAct;
     }
 
     public void setPanelPrincipal(JPanel panelPrincipal) {
-        this.panelPrincipal = panelPrincipal;
+        this.panelPrincipalAct = panelPrincipal;
     }
 
     public JTextField getjTxfCodigo() {

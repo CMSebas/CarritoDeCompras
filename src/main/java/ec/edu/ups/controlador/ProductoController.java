@@ -1,35 +1,46 @@
 package ec.edu.ups.controlador;
 
+import ec.edu.ups.dao.CarritoDAO;
 import ec.edu.ups.dao.ProductoDAO;
+import ec.edu.ups.modelo.Carrito;
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.vista.CarritoAnadirView;
 import ec.edu.ups.vista.ProductoActualizarEliminar;
 import ec.edu.ups.vista.ProductoAnadirView;
 import ec.edu.ups.vista.ProductoListaView;
 
-import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 public class ProductoController {
 
-    private final ProductoAnadirView productoAnadirView;
-    private final ProductoListaView productoListaView;
+    private ProductoAnadirView productoAnadirView;
+    private ProductoActualizarEliminar productoActualizarEliminar;
+    private ProductoListaView productoListaView;
+    private CarritoAnadirView carritoAnadirView;
     private final ProductoDAO productoDAO;
-    private final ProductoActualizarEliminar productoActualizarEliminar;
+    private final CarritoDAO carritoDAO;
 
     public ProductoController(ProductoDAO productoDAO,
                               ProductoAnadirView productoAnadirView,
                               ProductoListaView productoListaView,
-                              ProductoActualizarEliminar productoActualizarEliminar) {
+                              ProductoActualizarEliminar productoActualizarEliminar,
+                              CarritoAnadirView carritoAnadirView,CarritoDAO carritoDAO) {
+
         this.productoDAO = productoDAO;
         this.productoAnadirView = productoAnadirView;
         this.productoListaView = productoListaView;
         this.productoActualizarEliminar = productoActualizarEliminar;
-        configurarEventos();
+        this.carritoAnadirView = carritoAnadirView;
+        this.carritoDAO = carritoDAO;
+        this.configurarEventosEnVistas();
     }
 
-    private void configurarEventos() {
+
+
+    private void configurarEventosEnVistas() {
         productoAnadirView.getBtnAceptar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,10 +48,10 @@ public class ProductoController {
             }
         });
 
-        productoActualizarEliminar.getjButtonEliminar().addActionListener(new ActionListener() {
+        carritoAnadirView.getBtnAnadir().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                eliminarProducto();
+                añadirProductoAlCarrito();
             }
         });
 
@@ -48,6 +59,13 @@ public class ProductoController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 actualizarProducto();
+            }
+        });
+
+        carritoAnadirView.getBtnBuscar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarProductoPorCodigo();
             }
         });
 
@@ -64,9 +82,14 @@ public class ProductoController {
                 listarProductos();
             }
         });
-
-
     }
+
+
+
+
+
+
+
 
     private void guardarProducto() {
         int codigo = Integer.parseInt(productoAnadirView.getTxtCodigo().getText());
@@ -118,6 +141,44 @@ public class ProductoController {
             productoActualizarEliminar.mostrarMensaje("Producto no encontrado");
         }
     }
+
+    public void buscarProductoPorCodigo() {
+        int codigo=Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
+        Producto producto = productoDAO.buscarPorCodigo(codigo);
+        if (producto != null) {
+            carritoAnadirView.getTxtNombre().setText(producto.getNombre());
+            carritoAnadirView.getTxtPrecio().setText(String.valueOf(producto.getPrecio()));
+        } else {
+            carritoAnadirView.mostrarMensaje("❌ No se encontró el producto");
+            carritoAnadirView.getTxtNombre().setText("");
+            carritoAnadirView.getTxtPrecio().setText("");
+        }
+
+    }
+
+    private void añadirProductoAlCarrito() {
+        int codigo = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
+        String nombre = carritoAnadirView.getTxtNombre().getText();
+        double precio = Double.parseDouble(carritoAnadirView.getTxtPrecio().getText());
+
+        Carrito carrito = new Carrito(codigo, nombre, precio);
+        carritoDAO.crear(carrito);
+        carritoAnadirView.mostrarMensaje("✅ Producto añadido al carrito");
+
+        cargarTablaCarrito();
+    }
+
+    private void cargarTablaCarrito() {
+        DefaultTableModel modelo = (DefaultTableModel) carritoAnadirView.getTable1().getModel();
+        modelo.setRowCount(0); // limpia
+
+        for (Carrito c : carritoDAO.listarTodos()) {
+            Object[] fila = {c.getCodigo(), c.getNombre(), c.getPrecio()};
+            modelo.addRow(fila);
+        }
+    }
+
+
 
 
 

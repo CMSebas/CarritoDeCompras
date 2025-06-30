@@ -48,12 +48,6 @@ public class ProductoController {
             }
         });
 
-        carritoAnadirView.getBtnAnadir().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                añadirProductoAlCarrito();
-            }
-        });
 
         productoActualizarEliminar.getjButtonActualizar().addActionListener(new ActionListener() {
             @Override
@@ -143,40 +137,20 @@ public class ProductoController {
     }
 
     public void buscarProductoPorCodigo() {
-        int codigo=Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
+        int codigo = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
         Producto producto = productoDAO.buscarPorCodigo(codigo);
-        if (producto != null) {
-            carritoAnadirView.getTxtNombre().setText(producto.getNombre());
-            carritoAnadirView.getTxtPrecio().setText(String.valueOf(producto.getPrecio()));
-        } else {
-            carritoAnadirView.mostrarMensaje("❌ No se encontró el producto");
+        if (producto == null) {
+            carritoAnadirView.mostrarMensaje("No se encontro el producto");
             carritoAnadirView.getTxtNombre().setText("");
             carritoAnadirView.getTxtPrecio().setText("");
+        } else {
+            carritoAnadirView.getTxtNombre().setText(producto.getNombre());
+            carritoAnadirView.getTxtPrecio().setText(String.valueOf(producto.getPrecio()));
         }
 
     }
 
-    private void añadirProductoAlCarrito() {
-        int codigo = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
-        String nombre = carritoAnadirView.getTxtNombre().getText();
-        double precio = Double.parseDouble(carritoAnadirView.getTxtPrecio().getText());
 
-        Carrito carrito = new Carrito(codigo, nombre, precio);
-        carritoDAO.crear(carrito);
-        carritoAnadirView.mostrarMensaje("✅ Producto añadido al carrito");
-
-        cargarTablaCarrito();
-    }
-
-    private void cargarTablaCarrito() {
-        DefaultTableModel modelo = (DefaultTableModel) carritoAnadirView.getTable1().getModel();
-        modelo.setRowCount(0); // limpia
-
-        for (Carrito c : carritoDAO.listarTodos()) {
-            Object[] fila = {c.getCodigo(), c.getNombre(), c.getPrecio()};
-            modelo.addRow(fila);
-        }
-    }
 
 
 

@@ -5,25 +5,22 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
-public class    Carrito {
+public class Carrito {
+
+    private final double IVA = 0.12;
+
+    private static int contador = 1;
 
     private int codigo;
-    private String nombre;
-    private double precio;
 
     private GregorianCalendar fechaCreacion;
 
     private List<ItemCarrito> items;
 
     public Carrito() {
+        codigo = contador++;
         items = new ArrayList<>();
         fechaCreacion = new GregorianCalendar();
-    }
-
-    public Carrito(int codigo, String nombre, double precio) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.precio = precio;
     }
 
     public int getCodigo() {
@@ -32,22 +29,6 @@ public class    Carrito {
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
     }
 
     public GregorianCalendar getFechaCreacion() {
@@ -76,14 +57,6 @@ public class    Carrito {
         items.clear();
     }
 
-    public double calcularTotal() {
-        double total = 0;
-        for (ItemCarrito item : items) {
-            total += item.getProducto().getPrecio() * item.getCantidad();
-        }
-        return total;
-    }
-
     public List<ItemCarrito> obtenerItems() {
         return items;
     }
@@ -91,4 +64,32 @@ public class    Carrito {
     public boolean estaVacio() {
         return items.isEmpty();
     }
+
+    public double calcularSubtotal() {
+        double subtotal = 0;
+        for (ItemCarrito item : items) {
+            subtotal += item.getProducto().getPrecio() * item.getCantidad();
+        }
+        return subtotal;
+    }
+
+    public double calcularIVA() {
+        double subtotal = calcularSubtotal();
+        return subtotal * IVA;
+    }
+
+    public double calcularTotal() {
+        return calcularSubtotal() + calcularIVA();
+    }
+
+    @Override
+    public String toString() {
+        return "Carrito{" +
+                "IVA=" + IVA +
+                ", codigo=" + codigo +
+                ", fechaCreacion=" + fechaCreacion +
+                ", items=" + items +
+                '}';
+    }
 }
+

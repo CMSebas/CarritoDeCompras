@@ -9,6 +9,7 @@ public interface CarritoDAO {
     void crear(Carrito carrito);
 
     Carrito buscarPorCodigo(int codigo);
+    List<Carrito> buscarPorUsuario(String username);
 
     void actualizar(Carrito carrito);
 

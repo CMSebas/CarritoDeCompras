@@ -2,7 +2,7 @@ package ec.edu.ups.vista;
 
 import javax.swing.*;
 
-public class ProductoActualizarEliminar extends JInternalFrame {
+public class ProductoActualizar extends JInternalFrame {
 
     private JPanel panelPrincipalAct;
     private JTextField jTxfCodigo;
@@ -13,7 +13,7 @@ public class ProductoActualizarEliminar extends JInternalFrame {
     private JButton jButtonEliminar;
     private JLabel jLabel1;
 
-    public ProductoActualizarEliminar() {
+    public ProductoActualizar() {
         setContentPane(panelPrincipalAct);
         setTitle("Datos del Producto");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);

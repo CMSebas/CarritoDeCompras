@@ -2,14 +2,9 @@ package ec.edu.ups.controlador;
 
 import ec.edu.ups.dao.CarritoDAO;
 import ec.edu.ups.dao.ProductoDAO;
-import ec.edu.ups.modelo.Carrito;
 import ec.edu.ups.modelo.Producto;
-import ec.edu.ups.vista.CarritoAnadirView;
-import ec.edu.ups.vista.ProductoActualizarEliminar;
-import ec.edu.ups.vista.ProductoAnadirView;
-import ec.edu.ups.vista.ProductoListaView;
+import ec.edu.ups.vista.*;
 
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -17,23 +12,26 @@ import java.util.List;
 public class ProductoController {
 
     private ProductoAnadirView productoAnadirView;
-    private ProductoActualizarEliminar productoActualizarEliminar;
+    private ProductoActualizar productoActualizar;
     private ProductoListaView productoListaView;
     private CarritoAnadirView carritoAnadirView;
+    private ProductoEliminar productoEliminar;
     private final ProductoDAO productoDAO;
     private final CarritoDAO carritoDAO;
 
     public ProductoController(ProductoDAO productoDAO,
                               ProductoAnadirView productoAnadirView,
                               ProductoListaView productoListaView,
-                              ProductoActualizarEliminar productoActualizarEliminar,
+                              ProductoActualizar productoActualizar,
+                              ProductoEliminar productoEliminar,
                               CarritoAnadirView carritoAnadirView,CarritoDAO carritoDAO) {
 
         this.productoDAO = productoDAO;
         this.productoAnadirView = productoAnadirView;
         this.productoListaView = productoListaView;
-        this.productoActualizarEliminar = productoActualizarEliminar;
+        this.productoActualizar= productoActualizar;
         this.carritoAnadirView = carritoAnadirView;
+        this.productoEliminar=productoEliminar;
         this.carritoDAO = carritoDAO;
         this.configurarEventosEnVistas();
     }
@@ -49,11 +47,16 @@ public class ProductoController {
         });
 
 
-        productoActualizarEliminar.getjButtonActualizar().addActionListener(new ActionListener() {
+        productoActualizar.getjButtonActualizar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 actualizarProducto();
             }
+        });
+
+        productoEliminar.getjButtonEliminar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {eliminarProducto();}
         });
 
         carritoAnadirView.getBtnBuscar().addActionListener(new ActionListener() {
@@ -110,29 +113,29 @@ public class ProductoController {
 
 
     private void actualizarProducto() {
-        int codigo = Integer.parseInt(productoActualizarEliminar.getjTxfCodigo().getText());
-        String nombre = productoActualizarEliminar.getjTxfNombre().getText();
-        double precio = Double.parseDouble(productoActualizarEliminar.getjTxfPrecio().getText());
+        int codigo = Integer.parseInt(productoActualizar.getjTxfCodigo().getText());
+        String nombre = productoActualizar.getjTxfNombre().getText();
+        double precio = Double.parseDouble(productoActualizar.getjTxfPrecio().getText());
 
         Producto productoExistente = productoDAO.buscarPorCodigo(codigo);
         if (productoExistente != null) {
             Producto nuevoProducto = new Producto(codigo, nombre, precio);
             productoDAO.actualizar(nuevoProducto);
-            productoActualizarEliminar.mostrarMensaje("Producto actualizado correctamente");
+            productoActualizar.mostrarMensaje("Producto actualizado correctamente");
         } else {
-            productoActualizarEliminar.mostrarMensaje("Producto no encontrado");
+            productoActualizar.mostrarMensaje("Producto no encontrado");
         }
     }
 
     private void eliminarProducto() {
-        int codigo = Integer.parseInt(productoActualizarEliminar.getjTxfEliCodigo().getText());
+        int codigo = Integer.parseInt(productoEliminar.getjTxfEliCodigo().getText());
 
         Producto producto = productoDAO.buscarPorCodigo(codigo);
         if (producto != null) {
             productoDAO.eliminar(codigo);
-            productoActualizarEliminar.mostrarMensaje("Prodcuto eliminado correctamente");
+            productoEliminar.mostrarMensaje("Prodcuto eliminado correctamente");
         } else {
-            productoActualizarEliminar.mostrarMensaje("Producto no encontrado");
+            productoEliminar.mostrarMensaje("Producto no encontrado");
         }
     }
 

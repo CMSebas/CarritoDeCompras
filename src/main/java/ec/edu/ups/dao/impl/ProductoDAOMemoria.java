@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ProductoDAOMemoria implements ProductoDAO {
+public class    ProductoDAOMemoria implements ProductoDAO {
 
     private List<Producto> productos;
 

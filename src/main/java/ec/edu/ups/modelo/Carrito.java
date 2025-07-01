@@ -8,6 +8,7 @@ import java.util.List;
 public class Carrito {
 
     private final double IVA = 0.12;
+    private Usuario usuario;
 
     private static int contador = 1;
 
@@ -17,10 +18,19 @@ public class Carrito {
 
     private List<ItemCarrito> items;
 
-    public Carrito() {
+    public Carrito(Usuario usuario) {
         codigo = contador++;
         items = new ArrayList<>();
         fechaCreacion = new GregorianCalendar();
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public int getCodigo() {
@@ -76,6 +86,10 @@ public class Carrito {
     public double calcularIVA() {
         double subtotal = calcularSubtotal();
         return subtotal * IVA;
+    }
+
+    public void setItems(List<ItemCarrito> items) {
+        this.items = items;
     }
 
     public double calcularTotal() {

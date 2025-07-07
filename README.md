@@ -33,6 +33,10 @@ Implementar un sistema educativo que simula un **carrito de compras**, utilizand
 
 ---
 
+## Link del video y gitHub
+- https://youtu.be/BdIoo5JVzqg?si=zzqQWnv2Cs5PXrYB
+- https://github.com/CMSebas/CarritoDeCompras
+
 
 ## 📚 Recomendaciones
 

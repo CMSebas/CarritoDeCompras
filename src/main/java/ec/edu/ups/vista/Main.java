@@ -42,6 +42,7 @@ public class Main {
 
         loginView.setVisible(true);
         Locale localizacion = new Locale("es", "EC");
+        //
 
 
 

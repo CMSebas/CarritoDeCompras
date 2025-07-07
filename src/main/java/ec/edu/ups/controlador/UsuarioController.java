@@ -2,6 +2,7 @@ package ec.edu.ups.controlador;
 
 import ec.edu.ups.dao.UsuarioDAO;
 import ec.edu.ups.modelo.Usuario;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.vista.LoginView;
 
 import java.awt.event.ActionEvent;
@@ -12,11 +13,14 @@ public class UsuarioController {
     private Usuario usuario;
     private final UsuarioDAO usuarioDAO;
     private final LoginView loginView;
+    private final MensajeInternacionalizacionHandler mensajes;
 
-    public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView) {
+    public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView,MensajeInternacionalizacionHandler mensajes) {
         this.usuarioDAO = usuarioDAO;
         this.loginView = loginView;
         this.usuario = null;
+        this.mensajes = mensajes;
+
         configurarEventosEnVistas();
     }
 
@@ -27,6 +31,8 @@ public class UsuarioController {
                 autenticar();
             }
         });
+
+
     }
 
     private void autenticar(){
@@ -35,7 +41,7 @@ public class UsuarioController {
 
         usuario = usuarioDAO.autenticar(username, contrasenia);
         if(usuario == null){
-            loginView.mostrarMensaje("Usuario o contraseña incorrectos.");
+            loginView.mostrarMensaje(mensajes.get("login.error"));
         }else{
             loginView.dispose();
         }

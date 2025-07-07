@@ -1,10 +1,13 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Carrito;
+import ec.edu.ups.util.FormateadorUtils;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.Locale;
 
 public class CarritoListarUsuario extends JInternalFrame {
     private JPanel panelPrincipal2;
@@ -30,6 +33,26 @@ public class CarritoListarUsuario extends JInternalFrame {
         tblCarritos.setModel(modelo);
     }
 
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("carritoListarUsuario.titulo"));
+        btnListar.setText(mensajes.get("carritoListarUsuario.btnListar"));
+        btnListar.setIcon(new ImageIcon(getClass().getResource("/icons/listar.png")));
+
+        String[] columnas = {
+                mensajes.get("carritoListarUsuario.col.codigo"),
+                mensajes.get("carritoListarUsuario.col.fecha"),
+                mensajes.get("carritoListarUsuario.col.subtotal"),
+                mensajes.get("carritoListarUsuario.col.iva"),
+                mensajes.get("carritoListarUsuario.col.total")
+        };
+
+        for (int i = 0; i < columnas.length; i++) {
+            tblCarritos.getColumnModel().getColumn(i).setHeaderValue(columnas[i]);
+        }
+
+        tblCarritos.getTableHeader().repaint();
+    }
+
     public JButton getBtnListar() {
         return btnListar;
     }
@@ -38,16 +61,17 @@ public class CarritoListarUsuario extends JInternalFrame {
         this.btnListar = btnListar;
     }
 
-    public void cargarCarritos(List<Carrito> carritos) {
-        modelo.setRowCount(0); // Limpiar
+    public void cargarCarritos(List<Carrito> carritos, Locale locale) {
+        modelo.setRowCount(0);
         for (Carrito c : carritos) {
-            modelo.addRow(new Object[]{
+            Object[] fila = {
                     c.getCodigo(),
-                    c.getFechaCreacion().getTime(),
-                    c.calcularSubtotal(),
-                    c.calcularIVA(),
-                    c.calcularTotal()
-            });
+                    FormateadorUtils.formatearFecha(c.getFechaCreacion().getTime(), locale),
+                    FormateadorUtils.formatearMoneda(c.calcularSubtotal(), locale),
+                    FormateadorUtils.formatearMoneda(c.calcularIVA(), locale),
+                    FormateadorUtils.formatearMoneda(c.calcularTotal(), locale)
+            };
+            modelo.addRow(fila);
         }
     }
 

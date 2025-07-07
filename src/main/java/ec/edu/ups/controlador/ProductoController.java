@@ -3,6 +3,7 @@ package ec.edu.ups.controlador;
 import ec.edu.ups.dao.CarritoDAO;
 import ec.edu.ups.dao.ProductoDAO;
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.vista.*;
 
 import java.awt.event.ActionEvent;
@@ -18,13 +19,17 @@ public class ProductoController {
     private ProductoEliminar productoEliminar;
     private final ProductoDAO productoDAO;
     private final CarritoDAO carritoDAO;
+    private String monedaActual = "USD";
+    private final MensajeInternacionalizacionHandler mensajes;
+
+
 
     public ProductoController(ProductoDAO productoDAO,
                               ProductoAnadirView productoAnadirView,
                               ProductoListaView productoListaView,
                               ProductoActualizar productoActualizar,
                               ProductoEliminar productoEliminar,
-                              CarritoAnadirView carritoAnadirView,CarritoDAO carritoDAO) {
+                              CarritoAnadirView carritoAnadirView,CarritoDAO carritoDAO,MensajeInternacionalizacionHandler mensajes) {
 
         this.productoDAO = productoDAO;
         this.productoAnadirView = productoAnadirView;
@@ -33,10 +38,17 @@ public class ProductoController {
         this.carritoAnadirView = carritoAnadirView;
         this.productoEliminar=productoEliminar;
         this.carritoDAO = carritoDAO;
+        this.mensajes = mensajes;
+        this.carritoAnadirView.cambiarIdiomaTexto(mensajes);
         this.configurarEventosEnVistas();
     }
 
-
+    public void setMonedaActual(String monedaActual) {
+        this.monedaActual = monedaActual;
+    }
+    public void actualizarVistaLista() {
+        listarProductos(); // sigue siendo privado
+    }
 
     private void configurarEventosEnVistas() {
         productoAnadirView.getBtnAceptar().addActionListener(new ActionListener() {
@@ -94,7 +106,7 @@ public class ProductoController {
         double precio = Double.parseDouble(productoAnadirView.getTxtPrecio().getText());
 
         productoDAO.crear(new Producto(codigo, nombre, precio));
-        productoAnadirView.mostrarMensaje("Producto guardado correctamente");
+        productoAnadirView.mostrarMensaje(mensajes.get("producto.guardadoCorrectamente"));
         productoAnadirView.limpiarCampos();
         productoAnadirView.mostrarProductos(productoDAO.listarTodos());
     }
@@ -103,12 +115,12 @@ public class ProductoController {
         String nombre = productoListaView.getTxtBuscar().getText();
 
         List<Producto> productosEncontrados = productoDAO.buscarPorNombre(nombre);
-        productoListaView.cargarDatos(productosEncontrados);
+        productoListaView.cargarDatos(productosEncontrados,monedaActual);
     }
 
     private void listarProductos() {
         List<Producto> productos = productoDAO.listarTodos();
-        productoListaView.cargarDatos(productos);
+        productoListaView.cargarDatos(productos,monedaActual);
     }
 
 
@@ -121,9 +133,9 @@ public class ProductoController {
         if (productoExistente != null) {
             Producto nuevoProducto = new Producto(codigo, nombre, precio);
             productoDAO.actualizar(nuevoProducto);
-            productoActualizar.mostrarMensaje("Producto actualizado correctamente");
+            productoActualizar.mostrarMensaje(mensajes.get("producto.actualizadoCorrectamente"));
         } else {
-            productoActualizar.mostrarMensaje("Producto no encontrado");
+            productoActualizar.mostrarMensaje(mensajes.get("producto.noEncontrado"));
         }
     }
 
@@ -133,7 +145,7 @@ public class ProductoController {
         Producto producto = productoDAO.buscarPorCodigo(codigo);
         if (producto != null) {
             productoDAO.eliminar(codigo);
-            productoEliminar.mostrarMensaje("Prodcuto eliminado correctamente");
+            productoEliminar.mostrarMensaje(mensajes.get("producto.eliminadoCorrectamente"));
         } else {
             productoEliminar.mostrarMensaje("Producto no encontrado");
         }
@@ -143,7 +155,7 @@ public class ProductoController {
         int codigo = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
         Producto producto = productoDAO.buscarPorCodigo(codigo);
         if (producto == null) {
-            carritoAnadirView.mostrarMensaje("No se encontro el producto");
+            carritoAnadirView.mostrarMensaje(mensajes.get("producto.noExisteBuscar"));
             carritoAnadirView.getTxtNombre().setText("");
             carritoAnadirView.getTxtPrecio().setText("");
         } else {

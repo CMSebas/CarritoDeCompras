@@ -16,6 +16,7 @@ public class CarritoDAOMemoria implements CarritoDAO {
 
     @Override
     public void crear(Carrito carrito) {
+        carrito.asignarCodigo();
         carritos.add(carrito);
     }
 
@@ -40,6 +41,7 @@ public class CarritoDAOMemoria implements CarritoDAO {
         return resultado;
     }
 
+
     @Override
     public void actualizar(Carrito carrito) {
         for (int i = 0; i < carritos.size(); i++) {
@@ -48,6 +50,8 @@ public class CarritoDAOMemoria implements CarritoDAO {
             }
         }
     }
+
+
 
     @Override
     public void eliminar(int codigo) {

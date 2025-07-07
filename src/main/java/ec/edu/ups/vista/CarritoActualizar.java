@@ -2,6 +2,7 @@ package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Carrito;
 import ec.edu.ups.modelo.ItemCarrito;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +14,7 @@ public class CarritoActualizar extends JInternalFrame {
     private JButton btnBuscar;
     private JTable tblCarritos;
     private JButton btnActualizar;
+    private JLabel lblNombre;
     private DefaultTableModel modelo;
 
     public CarritoActualizar() {
@@ -39,6 +41,23 @@ public class CarritoActualizar extends JInternalFrame {
 
 
 
+    }
+
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("carrito.actualizar.tabTitulo"));
+        btnBuscar.setText(mensajes.get("carrito.actualizar.btnBuscar"));
+        btnActualizar.setText(mensajes.get("carrito.actualizar.btnActualizar"));
+        lblNombre.setText(mensajes.get("carrito.actualizar.lblNombre"));
+        btnBuscar.setIcon(new ImageIcon(getClass().getResource("/icons/search.png")));
+        btnActualizar.setIcon(new ImageIcon(getClass().getResource("/icons/update.png")));
+
+        modelo.setColumnIdentifiers(new Object[]{
+                mensajes.get("carrito.actualizar.tbl.codcarrito"),
+                mensajes.get("carrito.actualizar.tbl.codigo"),
+                mensajes.get("carrito.actualizar.tbl.nombre"),
+                mensajes.get("carrito.actualizar.tbl.precio"),
+                mensajes.get("carrito.actualizar.tbl.cantidad")
+        });
     }
 
     public void cargarCarritos(List<Carrito> carritos) {

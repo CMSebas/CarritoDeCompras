@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,6 +19,14 @@ public class CarritoAnadirView extends JInternalFrame {
     private JButton btnLimpiar;
     private JComboBox cbxCantidad;
     private JPanel panelPrincipalAn;
+    private JLabel lblCodigo;
+    private JLabel lblNombre;
+    private JLabel lblPrecio;
+    private JLabel lblCantidad;
+    private JLabel lblSub;
+    private JLabel lblIva;
+    private JLabel lblTotal;
+    private JLabel lblTitulo2;
 
     public CarritoAnadirView(){
 
@@ -31,6 +41,40 @@ public class CarritoAnadirView extends JInternalFrame {
         tblProductos.setModel(modelo);
 
         cargarDatos();
+
+    }
+
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("carrito.titulo"));
+
+        btnBuscar.setText(mensajes.get("carrito.btnBuscar"));
+        btnBuscar.setIcon(new ImageIcon(getClass().getResource("/icons/search.png")));
+        btnGuardar.setIcon(new ImageIcon(getClass().getResource("/icons/save.png")));
+        btnAnadir.setIcon(new   ImageIcon(getClass().getResource("/icons/anadir.png")));
+        btnAnadir.setText(mensajes.get("carrito.btnAnadir"));
+        btnGuardar.setText(mensajes.get("carrito.btnGuardar"));
+        btnLimpiar.setText(mensajes.get("carrito.btnLimpiar"));
+        lblCodigo.setText(mensajes.get("carrito.lblCodigo"));
+        lblNombre.setText(mensajes.get("carrito.lblNombre"));
+        lblPrecio.setText(mensajes.get("carrito.lblPrecio"));
+        lblCantidad.setText(mensajes.get("carrito.lblCantidad"));
+        lblSub.setText(mensajes.get("carrito.lblSub"));
+        lblIva.setText(mensajes.get("carrito.lblIva"));
+        lblTotal.setText(mensajes.get("carrito.lblTotal"));
+        lblTitulo2.setText(mensajes.get("carrito.lblTitulo2"));
+
+
+        String[] columnas = {
+                mensajes.get("carrito.tbl.codigo"),
+                mensajes.get("carrito.tbl.nombre"),
+                mensajes.get("carrito.tbl.precio"),
+                mensajes.get("carrito.tbl.cantidad"),
+                mensajes.get("carrito.tbl.subtotal")
+        };
+
+        DefaultTableModel modelo = (DefaultTableModel) tblProductos.getModel();
+        modelo.setColumnIdentifiers(columnas);
+
 
     }
 

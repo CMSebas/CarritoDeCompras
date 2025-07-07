@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,9 @@ public class ProductoAnadirView extends JInternalFrame {
     private JTextField txtCodigo;
     private JButton btnAceptar;
     private JButton btnLimpiar;
+    private JLabel lblPrecio;
+    private JLabel lblNombre;
+    private JLabel lblCodigo;
 
     public ProductoAnadirView() {
 
@@ -36,6 +40,17 @@ public class ProductoAnadirView extends JInternalFrame {
                 limpiarCampos();
             }
         });
+    }
+
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("productoAnadir.titulo"));
+        lblCodigo.setText(mensajes.get("productoAnadir.lblCodigo"));
+        lblNombre.setText(mensajes.get("productoAnadir.lblNombre"));
+        lblPrecio.setText(mensajes.get("productoAnadir.lblPrecio"));
+        btnAceptar.setText(mensajes.get("productoAnadir.btnAceptar"));
+        btnLimpiar.setText(mensajes.get("productoAnadir.btnLimpiar"));
+        btnLimpiar.setIcon(new ImageIcon(getClass().getResource("/icons/clear.png")));
+        btnAceptar.setIcon(new ImageIcon(getClass().getResource("/icons/aceptar.png")));
     }
 
     public JPanel getPanelPrincipal() {

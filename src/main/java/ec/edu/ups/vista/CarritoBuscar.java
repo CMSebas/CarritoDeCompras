@@ -1,17 +1,21 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Carrito;
-import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.FormateadorUtils;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class CarritoBuscar extends JInternalFrame {
     private JPanel panelPrincipal2;
     private JTextField txtBuscar;
     private JButton btnBuscar;
     private JTable tblCarritos;
+    private JLabel lblUsuario;
     private JButton btnListar;
     private DefaultTableModel modelo;
 
@@ -81,21 +85,34 @@ public class CarritoBuscar extends JInternalFrame {
         this.modelo = modelo;
     }
 
-    public void cargarDatos(List<Carrito> listaCarritos) {
-        modelo.setNumRows(0);
-
+    public void cargarDatos(List<Carrito> listaCarritos, Locale locale) {
+        modelo.setRowCount(0);
         for (Carrito carrito : listaCarritos) {
             Object[] fila = {
                     carrito.getCodigo(),
-                    carrito.getFechaCreacion().getTime().toString(),
-                    carrito.calcularSubtotal(),
-                    carrito.calcularIVA(),
-                    carrito.calcularTotal()
+                    FormateadorUtils.formatearFecha(carrito.getFechaCreacion().getTime(), locale),
+                    FormateadorUtils.formatearMoneda(carrito.calcularSubtotal(), locale),
+                    FormateadorUtils.formatearMoneda(carrito.calcularIVA(), locale),
+                    FormateadorUtils.formatearMoneda(carrito.calcularTotal(), locale)
             };
             modelo.addRow(fila);
         }
+    }
+
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        btnBuscar.setText(mensajes.get("carritoBuscar.btnBuscar"));
+        lblUsuario.setText(mensajes.get("carritoBuscar.lblUsuario"));
+        setTitle(mensajes.get("carritoBuscar.titulo"));
+        btnBuscar.setIcon(new ImageIcon(getClass().getResource("/icons/search.png")));
 
 
+        modelo.setColumnIdentifiers(new Object[]{
+                mensajes.get("carritoBuscar.col.codigo"),
+                mensajes.get("carritoBuscar.col.fecha"),
+                mensajes.get("carritoBuscar.col.subtotal"),
+                mensajes.get("carritoBuscar.col.iva"),
+                mensajes.get("carritoBuscar.col.total")
+        });
     }
 
     public void mostrarMensaje(String mensaje) {

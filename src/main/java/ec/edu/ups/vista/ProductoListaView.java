@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,13 +12,14 @@ public class ProductoListaView extends JInternalFrame {
     private JTextField txtBuscar;
     private JButton btnBuscar;
     private JTable tblProductos;
-    private JPanel panelPrincipal2;
+    private JPanel plPrincipal2;
     private JButton btnListar;
+    private JLabel lblNombre;
     private DefaultTableModel modelo;
 
     public ProductoListaView() {
 
-        setContentPane(panelPrincipal2);
+        setContentPane(plPrincipal2);
         setTitle("Datos del Producto");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
@@ -34,8 +36,33 @@ public class ProductoListaView extends JInternalFrame {
         tblProductos.setModel(modelo);
     }
 
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        lblNombre.setText(mensajes.get("producto.lista.lblNombre"));
+        setTitle(mensajes.get("productoLista.titulo"));
+        btnBuscar.setText(mensajes.get("productoLista.btnBuscar"));
+        btnListar.setText(mensajes.get("productoLista.btnListar"));
+        btnBuscar.setIcon(new ImageIcon(getClass().getResource("/icons/search.png")));
+        btnListar.setIcon(new ImageIcon(getClass().getResource("/icons/listar.png")));
+
+        String[] columnas = {
+                mensajes.get("productoLista.tbl.codigo"),
+                mensajes.get("productoLista.tbl.nombre"),
+                mensajes.get("productoLista.tbl.precio")
+        };
+
+        modelo.setColumnIdentifiers(columnas); // cambia encabezados
+    }
+
     public JTextField getTxtBuscar() {
         return txtBuscar;
+    }
+
+    public JPanel getPlPrincipal2() {
+        return plPrincipal2;
+    }
+
+    public void setPlPrincipal2(JPanel plPrincipal2) {
+        this.plPrincipal2 = plPrincipal2;
     }
 
     public void setTxtBuscar(JTextField txtBuscar) {
@@ -59,11 +86,11 @@ public class ProductoListaView extends JInternalFrame {
     }
 
     public JPanel getPanelPrincipal() {
-        return panelPrincipal2;
+        return plPrincipal2;
     }
 
     public void setPanelPrincipal(JPanel panelPrincipal) {
-        this.panelPrincipal2 = panelPrincipal;
+        this.plPrincipal2 = panelPrincipal;
     }
 
     public JButton getBtnListar() {
@@ -82,18 +109,18 @@ public class ProductoListaView extends JInternalFrame {
         this.modelo = modelo;
     }
 
-    public void cargarDatos(List<Producto> listaProductos) {
+    public void cargarDatos(List<Producto> listaProductos, String moneda) {
         modelo.setNumRows(0);
+
+        String simbolo = moneda.equals("EUR") ? "€" : "$";
 
         for (Producto producto : listaProductos) {
             Object[] fila = {
                     producto.getCodigo(),
                     producto.getNombre(),
-                    producto.getPrecio()
+                    simbolo + String.format("%.2f", producto.getPrecio())
             };
             modelo.addRow(fila);
         }
-
-
     }
 }

@@ -16,12 +16,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="b93a6" class="javax.swing.JLabel">
+          <component id="b93a6" class="javax.swing.JLabel" binding="lblUsuario">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Nombre"/>
+              <text value="Usuario"/>
             </properties>
           </component>
           <vspacer id="14e08">

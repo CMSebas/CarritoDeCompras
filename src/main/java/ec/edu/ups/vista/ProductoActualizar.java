@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class ProductoActualizar extends JInternalFrame {
@@ -11,7 +13,10 @@ public class ProductoActualizar extends JInternalFrame {
     private JButton jButtonActualizar;
     private JTextField jTxfEliCodigo;
     private JButton jButtonEliminar;
-    private JLabel jLabel1;
+    private JLabel lblTittle;
+    private JLabel lblCodigo;
+    private JLabel lblNombre;
+    private JLabel lblPrecio;
 
     public ProductoActualizar() {
         setContentPane(panelPrincipalAct);
@@ -25,6 +30,17 @@ public class ProductoActualizar extends JInternalFrame {
         //setVisible(true);
         //pack();
 
+
+    }
+
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("productoActualizar.titulo"));
+        lblTittle.setText(mensajes.get("productoActualizar.lblTitulo"));
+        lblCodigo.setText(mensajes.get("productoActualizar.lblCodigo"));
+        lblNombre.setText(mensajes.get("productoActualizar.lblNombre"));
+        lblPrecio.setText(mensajes.get("productoActualizar.lblPrecio"));
+        jButtonActualizar.setText(mensajes.get("productoActualizar.btnActualizar"));
+        jButtonActualizar.setIcon(new ImageIcon(getClass().getResource("/icons/update.png")));
 
     }
 
@@ -91,11 +107,11 @@ public class ProductoActualizar extends JInternalFrame {
     }
 
     public JLabel getjLabel1() {
-        return jLabel1;
+        return lblTittle;
     }
 
     public void setjLabel1(JLabel jLabel1) {
-        this.jLabel1 = jLabel1;
+        this.lblTittle = jLabel1;
     }
 
 

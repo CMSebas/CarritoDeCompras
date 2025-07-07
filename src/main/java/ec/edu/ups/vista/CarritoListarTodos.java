@@ -1,10 +1,13 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Carrito;
+import ec.edu.ups.util.FormateadorUtils;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.Locale;
 
 public class CarritoListarTodos extends JInternalFrame {
     private JPanel panelPrincipal2;
@@ -28,6 +31,27 @@ public class CarritoListarTodos extends JInternalFrame {
         Object[] columnas = {"Código", "Usuario", "Fecha", "Subtotal", "IVA", "Total"};
         modelo.setColumnIdentifiers(columnas);
         tblCarritos.setModel(modelo);
+    }
+
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("carritoListarTodos.titulo"));
+        btnListar.setText(mensajes.get("carritoListarTodos.btnListar"));
+        btnListar.setIcon(new ImageIcon(getClass().getResource("/icons/listar.png")));
+
+        String[] columnas = {
+                mensajes.get("carritoListarTodos.col.codigo"),
+                mensajes.get("carritoListarTodos.col.usuario"),
+                mensajes.get("carritoListarTodos.col.fecha"),
+                mensajes.get("carritoListarTodos.col.subtotal"),
+                mensajes.get("carritoListarTodos.col.iva"),
+                mensajes.get("carritoListarTodos.col.total")
+        };
+
+        for (int i = 0; i < columnas.length; i++) {
+            tblCarritos.getColumnModel().getColumn(i).setHeaderValue(columnas[i]);
+        }
+
+        tblCarritos.getTableHeader().repaint();
     }
 
     public JButton getBtnListar() {
@@ -62,17 +86,18 @@ public class CarritoListarTodos extends JInternalFrame {
         this.tblCarritos = tblCarritos;
     }
 
-    public void cargarCarritos(List<Carrito> carritos) {
-        modelo.setRowCount(0); // Limpiar
+    public void cargarCarritos(List<Carrito> carritos, Locale locale) {
+        modelo.setRowCount(0);
         for (Carrito c : carritos) {
-            modelo.addRow(new Object[]{
+            Object[] fila = {
                     c.getCodigo(),
                     c.getUsuario().getUsername(),
-                    c.getFechaCreacion().getTime(),
-                    c.calcularSubtotal(),
-                    c.calcularIVA(),
-                    c.calcularTotal()
-            });
+                    FormateadorUtils.formatearFecha(c.getFechaCreacion().getTime(), locale),
+                    FormateadorUtils.formatearMoneda(c.calcularSubtotal(), locale),
+                    FormateadorUtils.formatearMoneda(c.calcularIVA(), locale),
+                    FormateadorUtils.formatearMoneda(c.calcularTotal(), locale)
+            };
+            modelo.addRow(fila);
         }
     }
 }

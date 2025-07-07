@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class LoginView extends JFrame {
@@ -8,6 +10,9 @@ public class LoginView extends JFrame {
     private JTextField txtContrasenia;
     private JButton btnIniciarSesion;
     private JButton btnRegistrate;
+    private JButton btnRecuperar;
+    private JLabel lblUsuario;
+    private JLabel lblContrasena;
 
     public LoginView() {
         setContentPane(panelPrincipal);
@@ -19,6 +24,25 @@ public class LoginView extends JFrame {
 
     public JPanel getPanelPrincipal() {
         return panelPrincipal;
+    }
+    public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(mensajes.get("login.titulo"));
+        lblUsuario.setText(mensajes.get("login.usuario"));
+        lblContrasena.setText(mensajes.get("login.contrasena"));
+        btnIniciarSesion.setText(mensajes.get("login.btnIniciarSesion"));
+        btnRegistrate.setText(mensajes.get("login.btnRegistrate"));
+        btnRecuperar.setText(mensajes.get("login.btnRecuperar"));
+        btnIniciarSesion.setIcon(new ImageIcon(getClass().getResource("/icons/usuario.png")));
+        btnRecuperar.setIcon(new ImageIcon(getClass().getResource("/icons/recuperar.png")));
+        btnRegistrate.setIcon(new ImageIcon(getClass().getResource("/icons/crear.png")));
+    }
+
+    public JButton getBtnRecuperar() {
+        return btnRecuperar;
+    }
+
+    public void setBtnRecuperar(JButton btnRecuperar) {
+        this.btnRecuperar = btnRecuperar;
     }
 
     public void setPanelPrincipal(JPanel panelPrincipal) {

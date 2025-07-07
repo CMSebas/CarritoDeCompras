@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+
+
 public class Carrito {
 
     private final double IVA = 0.12;
@@ -18,8 +20,8 @@ public class Carrito {
 
     private List<ItemCarrito> items;
 
+
     public Carrito(Usuario usuario) {
-        codigo = contador++;
         items = new ArrayList<>();
         fechaCreacion = new GregorianCalendar();
         this.usuario = usuario;
@@ -27,6 +29,9 @@ public class Carrito {
 
     public Usuario getUsuario() {
         return usuario;
+    }
+    public void asignarCodigo() {
+        this.codigo = contador++;
     }
 
     public void setUsuario(Usuario usuario) {

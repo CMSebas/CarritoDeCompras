@@ -3,14 +3,27 @@ package ec.edu.ups.vista;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
-
+/**
+ * Ventana interna (JInternalFrame) para eliminar productos del sistema.
+ *
+ * Esta clase permite al usuario ingresar un código de producto y eliminarlo del sistema.
+ * Se integra con el sistema de internacionalización a través del objeto {@link MensajeInternacionalizacionHandler}.
+ * También permite mostrar mensajes al usuario mediante cuadros de diálogo.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class ProductoEliminar  extends JInternalFrame{
     private JTextField jTxfEliCodigo;
     private JButton jButtonEliminar;
     private JPanel panelPrincipal;
     private JLabel lblTittle;
     private JLabel jblCodigo;
-
+    /**
+     * Constructor que inicializa la ventana para eliminar un producto.
+     * Configura el panel principal, tamaño, y comportamiento de cierre.
+     */
     public ProductoEliminar() {
         setContentPane(panelPrincipal);
         setTitle("Datos del Producto");

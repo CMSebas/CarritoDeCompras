@@ -4,7 +4,19 @@ import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * Clase que representa una ventana interna (JInternalFrame) para añadir productos a un carrito de compras.
+ * Permite buscar productos, establecer cantidades, añadirlos a una tabla con subtotales,
+ * y calcular valores como subtotal, IVA y total.
+ *
+ * Incluye soporte para internacionalización mediante el uso del handler de mensajes.
+ *
+ * Esta clase forma parte de la capa de presentación del sistema.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class CarritoAnadirView extends JInternalFrame {
     private JButton btnBuscar;
     private JTextField txtCodigo;
@@ -27,7 +39,10 @@ public class CarritoAnadirView extends JInternalFrame {
     private JLabel lblIva;
     private JLabel lblTotal;
     private JLabel lblTitulo2;
-
+    /**
+     * Constructor que configura la ventana de añadir productos al carrito,
+     * inicializa el modelo de la tabla y carga los valores para el combo de cantidad.
+     */
     public CarritoAnadirView(){
 
         super("Carrito de Compras", true, true, false, true);
@@ -43,7 +58,12 @@ public class CarritoAnadirView extends JInternalFrame {
         cargarDatos();
 
     }
-
+    /**
+     * Cambia todos los textos visibles de la ventana de acuerdo al idioma seleccionado
+     * usando el manejador de internacionalización.
+     *
+     * @param mensajes Manejador de recursos internacionalizados.
+     */
     public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
         setTitle(mensajes.get("carrito.titulo"));
 
@@ -79,7 +99,9 @@ public class CarritoAnadirView extends JInternalFrame {
     }
 
 
-
+    /**
+     * Carga valores del 1 al 20 en el combo de selección de cantidad.
+     */
     private void cargarDatos(){
         cbxCantidad.removeAllItems();
         for(int i = 0; i < 20; i++){

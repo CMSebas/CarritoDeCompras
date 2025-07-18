@@ -7,7 +7,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.ResourceBundle;
-
+/**
+ * Ventana interna para eliminar productos específicos de un carrito de compras.
+ * Permite buscar un carrito por su código, mostrar los productos en una tabla y
+ * eliminar un producto seleccionado.
+ *
+ * Soporta internacionalización de la interfaz gráfica y utiliza un modelo de tabla
+ * para gestionar los datos de los ítems del carrito.
+ *
+ * Pertenece a la capa de vista del sistema.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class CarritoEliminarItems extends JInternalFrame {
     private JPanel panelPrincipalAn;
     private JTextField txtCodigoCarrito;
@@ -18,7 +31,10 @@ public class CarritoEliminarItems extends JInternalFrame {
     private JLabel lblDatos;
     private DefaultTableModel modelo;
 
-
+    /**
+     * Constructor que inicializa la ventana y la tabla de productos para eliminación.
+     * Configura los componentes visuales básicos.
+     */
     public CarritoEliminarItems() {
         setTitle("Eliminar Producto de Carrito");
         setClosable(true);
@@ -77,7 +93,12 @@ public class CarritoEliminarItems extends JInternalFrame {
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
     }
-
+    /**
+     * Carga los productos del carrito en la tabla usando la lista de ítems.
+     * Calcula automáticamente el subtotal de cada ítem.
+     *
+     * @param items Lista de ítems del carrito a mostrar.
+     */
     public void cargarProductos(List<ItemCarrito> items) {
         modelo.setRowCount(0);
         for (ItemCarrito item : items) {
@@ -90,7 +111,12 @@ public class CarritoEliminarItems extends JInternalFrame {
             });
         }
     }
-
+    /**
+     * Cambia todos los textos de la interfaz al idioma correspondiente.
+     * También actualiza los encabezados de la tabla.
+     *
+     * @param mensajes Manejador de internacionalización con los textos traducidos.
+     */
     public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
         setTitle(mensajes.get("carritoEliminarItems.titulo"));
         lblCodigo.setText(mensajes.get("carritoEliminarItems.lblCodigo"));
@@ -118,7 +144,11 @@ public class CarritoEliminarItems extends JInternalFrame {
     public void mostrarMensaje(String msg) {
         JOptionPane.showMessageDialog(this, msg);
     }
-
+    /**
+     * Devuelve el código del producto actualmente seleccionado en la tabla.
+     *
+     * @return Código del producto como entero, o -1 si no hay selección.
+     */
     public int obtenerProductoSeleccionado() {
         int fila = tblProductos.getSelectedRow();
         if (fila != -1) {

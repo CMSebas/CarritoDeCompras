@@ -7,20 +7,38 @@ import ec.edu.ups.modelo.Usuario;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Implementación de {@link UsuarioDAO} que gestiona los usuarios
+ * utilizando un archivo de texto como almacenamiento persistente.
+ *
+ * Cada usuario se guarda en una línea con formato: nombre;apellido;username;contraseña;rol
+ * Se asegura de que exista un usuario administrador por defecto ("admin").
+ *
+ * Esta clase soporta operaciones CRUD y autenticación de usuarios.
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class UsuarioDAOTexto implements UsuarioDAO {
 
     private final String rutaArchivo;
     private List<Usuario> usuarios;
 
-
+    /**
+     * Constructor que recibe la ruta del archivo de texto donde se almacenarán los usuarios.
+     * Carga los usuarios existentes y verifica que exista un administrador por defecto.
+     *
+     * @param rutaArchivo Ruta del archivo (ej. "usuarios.txt")
+     */
     public UsuarioDAOTexto(String rutaArchivo) {
         this.rutaArchivo=rutaArchivo;
         usuarios = new ArrayList<>();
         cargarDesdeArchivo();
         verificarAdmin();
     }
-
+    /**
+     * Carga los usuarios desde el archivo al inicializar el DAO.
+     */
     private void cargarDesdeArchivo() {
         try (BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
@@ -39,7 +57,9 @@ public class UsuarioDAOTexto implements UsuarioDAO {
             System.err.println("Error al cargar usuarios desde archivo: " + e.getMessage());
         }
     }
-
+    /**
+     * Verifica si existe un usuario administrador. Si no, crea uno por defecto.
+     */
     private void verificarAdmin() {
         boolean existeAdmin = false;
         for (Usuario u : usuarios) {
@@ -50,7 +70,7 @@ public class UsuarioDAOTexto implements UsuarioDAO {
         }
 
         if (!existeAdmin) {
-            Usuario admin = new Usuario("Administrador", "Sistema", "admin", "Admin@", Rol.ADMINISTRADOR);
+            Usuario admin = new Usuario("Administrador", "Sistema", "0107529729", "Admin@", Rol.ADMINISTRADOR);
             usuarios.add(admin);
 
             try (BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo, true))) {
@@ -64,7 +84,13 @@ public class UsuarioDAOTexto implements UsuarioDAO {
             }
         }
     }
-
+    /**
+     * Autentica un usuario por su nombre de usuario y contraseña.
+     *
+     * @param username Nombre de usuario
+     * @param contrasenia Contraseña
+     * @return Usuario autenticado o {@code null} si no coincide
+     */
     @Override
     public Usuario autenticar(String username, String contrasenia) {
         Usuario usuario = buscarPorUsername(username);
@@ -73,7 +99,11 @@ public class UsuarioDAOTexto implements UsuarioDAO {
         }
         return null;
     }
-
+    /**
+     * Registra un nuevo usuario en el archivo.
+     *
+     * @param usuario Usuario a crear
+     */
     @Override
     public void crear(Usuario usuario) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo, true))) {
@@ -84,7 +114,12 @@ public class UsuarioDAOTexto implements UsuarioDAO {
             System.out.println("Error al guardar el usuario: " + e.getMessage());
         }
     }
-
+    /**
+     * Busca un usuario por su nombre de usuario.
+     *
+     * @param username Nombre de usuario
+     * @return Usuario encontrado o {@code null}
+     */
     @Override
     public Usuario buscarPorUsername(String username) {
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
@@ -100,7 +135,11 @@ public class UsuarioDAOTexto implements UsuarioDAO {
         }
         return null;
     }
-
+    /**
+     * Elimina un usuario por su nombre de usuario.
+     *
+     * @param username Usuario a eliminar
+     */
     @Override
     public void eliminar(String username) {
         List<Usuario> todos = listarTodos();
@@ -114,7 +153,11 @@ public class UsuarioDAOTexto implements UsuarioDAO {
 
         guardarTodos(todos);
     }
-
+    /**
+     * Actualiza la información de un usuario existente por su nombre de usuario.
+     *
+     * @param usuario Usuario actualizado
+     */
     @Override
     public void actualizar(Usuario usuario) {
         List<Usuario> todos = listarTodos();
@@ -126,7 +169,11 @@ public class UsuarioDAOTexto implements UsuarioDAO {
         }
         guardarTodos(todos);
     }
-
+    /**
+     * Lista todos los usuarios registrados en el archivo.
+     *
+     * @return Lista de usuarios
+     */
     @Override
     public List<Usuario> listarTodos() {
         List<Usuario> usuarios = new ArrayList<>();
@@ -143,7 +190,12 @@ public class UsuarioDAOTexto implements UsuarioDAO {
         }
         return usuarios;
     }
-
+    /**
+     * Lista los usuarios que tienen un rol específico.
+     *
+     * @param rol Rol a filtrar (ej. ADMINISTRADOR, USUARIO)
+     * @return Lista de usuarios con ese rol
+     */
     @Override
     public List<Usuario> listarPorRol(Rol rol) {
         List<Usuario> filtrados = new ArrayList<>();
@@ -154,7 +206,11 @@ public class UsuarioDAOTexto implements UsuarioDAO {
         }
         return filtrados;
     }
-
+    /**
+     * Guarda en el archivo la lista completa de usuarios sobrescribiéndolo por completo.
+     *
+     * @param usuarios Lista actualizada de usuarios
+     */
     private void guardarTodos(List<Usuario> usuarios) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
             for (Usuario u : usuarios) {

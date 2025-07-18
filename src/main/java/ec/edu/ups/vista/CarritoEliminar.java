@@ -10,7 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * Clase que representa una ventana interna (JInternalFrame) utilizada para eliminar carritos de compras.
+ * Permite al usuario ingresar un código de carrito, visualizar una tabla con los carritos existentes y
+ * eliminarlos de la lista. También soporta internacionalización para cambiar los textos visibles.
+ *
+ * Forma parte de la capa de presentación del sistema de gestión de compras.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class CarritoEliminar extends JInternalFrame {
     private JPanel panelPrincipal2;
     private JTextField txtCodigo;
@@ -20,7 +30,10 @@ public class CarritoEliminar extends JInternalFrame {
     private JLabel lblCodigo;
     private DefaultTableModel modelo;
     private List<Carrito> carritosActuales = new ArrayList<>();
-
+    /**
+     * Constructor que configura y construye la interfaz de la ventana para eliminar carritos.
+     * Inicializa el diseño y los componentes como botones, tabla y campos de entrada.
+     */
     public CarritoEliminar() {
         setTitle("Eliminar Carrito");
         setClosable(true);
@@ -51,7 +64,12 @@ public class CarritoEliminar extends JInternalFrame {
 
         setContentPane(panelPrincipal2);
     }
-
+    /**
+     * Carga la tabla de carritos con la lista proporcionada, usando formato local para fechas y moneda.
+     *
+     * @param lista Lista de carritos a mostrar en la tabla.
+     * @param locale Configuración regional para formatear los datos (moneda y fecha).
+     */
     public void cargarTabla(List<Carrito> lista, Locale locale) {
         this.carritosActuales = lista;
         modelo.setRowCount(0);
@@ -73,7 +91,12 @@ public class CarritoEliminar extends JInternalFrame {
     }
 
 
-
+    /**
+     * Cambia todos los textos visibles de la interfaz según el idioma seleccionado.
+     * También actualiza los encabezados de columna en la tabla.
+     *
+     * @param mensajes Manejador de internacionalización que contiene los textos en el idioma actual.
+     */
     public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
         setTitle(mensajes.get("carritoEliminar.titulo"));
         btnEliminar.setText(mensajes.get("carritoEliminar.btnEliminar"));

@@ -9,7 +9,17 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * Clase que representa una ventana interna (JInternalFrame) para buscar carritos de compras registrados.
+ * Permite buscar un carrito por código, mostrar todos los carritos existentes, y visualizar sus datos en una tabla.
+ * También soporta internacionalización para mostrar los textos según el idioma del sistema.
+ *
+ * Esta clase forma parte de la capa de presentación del sistema.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class CarritoBuscar extends JInternalFrame {
     private JPanel panelPrincipal2;
     private JTextField txtBuscar;
@@ -18,7 +28,10 @@ public class CarritoBuscar extends JInternalFrame {
     private JLabel lblUsuario;
     private JButton btnListar;
     private DefaultTableModel modelo;
-
+    /**
+     * Constructor que inicializa la interfaz gráfica de búsqueda de carritos.
+     * Configura el panel principal y el modelo de la tabla con sus columnas.
+     */
     public CarritoBuscar() {
         setContentPane(panelPrincipal2);
         setTitle("Datos del Producto");
@@ -84,7 +97,13 @@ public class CarritoBuscar extends JInternalFrame {
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
     }
-
+    /**
+     * Carga en la tabla los carritos proporcionados en la lista, mostrando sus detalles
+     * formateados según la configuración regional (Locale).
+     *
+     * @param listaCarritos Lista de carritos a mostrar.
+     * @param locale Configuración regional para formateo de fecha y moneda.
+     */
     public void cargarDatos(List<Carrito> listaCarritos, Locale locale) {
         modelo.setRowCount(0);
         for (Carrito carrito : listaCarritos) {

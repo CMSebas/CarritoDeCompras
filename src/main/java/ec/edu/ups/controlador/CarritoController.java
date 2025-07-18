@@ -16,7 +16,14 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * Controlador principal para gestionar las operaciones relacionadas con los carritos de compra.
+ * Este controlador conecta las vistas con los DAOs y el modelo Carrito, permitiendo crear,
+ * actualizar, eliminar y listar carritos, así como manejar la internacionalización y el cambio de moneda.
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class CarritoController {
 
     private final CarritoDAO carritoDAO;
@@ -34,6 +41,21 @@ public class CarritoController {
     private final MensajeInternacionalizacionHandler mensajes;
     private Usuario usuario;
     private Carrito carrito;
+    /**
+     * Constructor del controlador de carritos.
+     *
+     * @param carritoDAO DAO para manejar carritos
+     * @param productoDAO DAO para manejar productos
+     * @param carritoAnadirView Vista para añadir productos al carrito
+     * @param usuario Usuario actual
+     * @param carritoBuscar Vista para buscar carritos
+     * @param carritoListarUsuario Vista para listar carritos del usuario
+     * @param carritoActualizar Vista para actualizar carritos
+     * @param carritoListarTodos Vista para listar todos los carritos
+     * @param carritoEliminar Vista para eliminar carritos
+     * @param carritoEliminarItems Vista para eliminar productos del carrito
+     * @param mensajes Manejador de textos internacionalizados
+     */
 
     public CarritoController(CarritoDAO carritoDAO,
                              ProductoDAO productoDAO,
@@ -62,6 +84,11 @@ public class CarritoController {
 
         configurarEventosEnVistas();
     }
+    /**
+     * Cambia la moneda utilizada para mostrar los totales de los carritos.
+     *
+     * @param nuevaLocale El nuevo locale que define la moneda y formato.
+     */
     public void cambiarMoneda(Locale nuevaLocale) {
         this.localeActual = nuevaLocale;
         mostrarTotales();
@@ -73,7 +100,11 @@ public class CarritoController {
     }
 
 
-
+    /**
+     * Devuelve la vista para añadir productos al carrito.
+     *
+     * @return Vista de añadir carrito
+     */
     public CarritoAnadirView getCarritoAnadirView() {
         return carritoAnadirView;
     }
@@ -86,6 +117,9 @@ public class CarritoController {
         this.monedaActual = monedaActual;
     }
 
+    /**
+     * Configura los eventos para todos los botones de las vistas relacionadas con carritos.
+     */
     private void configurarEventosEnVistas() {
         carritoAnadirView.getBtnAnadir().addActionListener(new ActionListener() {
             @Override
@@ -211,16 +245,25 @@ public class CarritoController {
         });
     }
 
+    /**
+     * Carga todos los carritos en la vista de eliminación de carritos.
+     */
     public void cargarTodosCarritosEnEliminar() {
         carritoEliminar.cargarTabla(carritoDAO.listarTodos(),localeActual);
     }
 
+    /**
+     * Muestra los totales (subtotal, IVA, total) en la vista de añadir carrito.
+     */
     private void mostrarTotales() {
         carritoAnadirView.getTxtSubtotal().setText(FormateadorUtils.formatearMoneda(carrito.calcularSubtotal(), localeActual));
         carritoAnadirView.getTxtIva().setText(FormateadorUtils.formatearMoneda(carrito.calcularIVA(), localeActual));
         carritoAnadirView.getTxtTotal().setText(FormateadorUtils.formatearMoneda(carrito.calcularTotal(), localeActual));
     }
 
+    /**
+     * Guarda el carrito actual y reinicia la vista para un nuevo carrito.
+     */
     private void guardarCarrito() {
         carritoDAO.crear(carrito);
         carritoAnadirView.mostrarMensaje(mensajes.get("carrito.guardado"));
@@ -238,6 +281,9 @@ public class CarritoController {
 
 
 
+    /**
+     * Añade un producto seleccionado al carrito.
+     */
     private void anadirProducto() {
 
         int codigo = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
@@ -250,6 +296,9 @@ public class CarritoController {
 
     }
 
+    /**
+     * Carga los productos actuales en el carrito y los muestra en la tabla.
+     */
     private void cargarProductos() {
         List<ItemCarrito> items = carrito.obtenerItems();
         DefaultTableModel modelo = (DefaultTableModel) carritoAnadirView.getTblProductos().getModel();
@@ -272,6 +321,9 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Busca un carrito por código para actualizarlo.
+     */
     private void buscarCarritoPorCodigoParaActualizar() {
         try {
             int codigo = Integer.parseInt(carritoActualizar.getTxtBuscar().getText());
@@ -288,6 +340,9 @@ public class CarritoController {
 
 
 
+    /**
+     * Actualiza un carrito desde la tabla editable.
+     */
     private void actualizarCarritoDesdeTabla() {
         DefaultTableModel modelo = carritoActualizar.getModelo();
         int codCarrito = Integer.parseInt(carritoActualizar.getTxtBuscar().getText());
@@ -316,6 +371,9 @@ public class CarritoController {
         carritoActualizar.mostrarMensaje(mensajes.get("carrito.actualizado"));
     }
 
+    /**
+     * Busca carritos por nombre de usuario y los muestra en la vista.
+     */
     private void buscarCarritosPorUsuario() {
         String nombre = carritoBuscar.getTxtBuscar().getText();
 
@@ -328,20 +386,9 @@ public class CarritoController {
         }
     }
 
-    private void buscarCarritosPorUsuarioParaActualizar() {
-        String username = carritoActualizar.getTxtBuscar().getText();
-        List<Carrito> carritos = carritoDAO.buscarPorUsuario(username);
-
-        if (carritos.isEmpty()) {
-            carritoActualizar.mostrarMensaje(mensajes.get("carrito.noEncontrado"));
-        } else {
-            carritoActualizar.cargarCarritos(carritos); // Mostrar todos los carritos del usuario
-        }
-    }
-
-
-
-
+    /**
+     * Carga todos los carritos del usuario actualmente autenticado.
+     */
     public void cargarMisCarritos() {
         List<Carrito> misCarritos = carritoDAO.buscarPorUsuario(usuario.getUsername());
         carritoListarUsuario.cargarCarritos(misCarritos,localeActual);

@@ -3,13 +3,23 @@ package ec.edu.ups.servicio;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
-
+/**
+ * La clase FondoEscritorio extiende JDesktopPane y se encarga de dibujar un fondo visual personalizado,
+ * incluyendo un cielo estrellado, una luna, montañas y una franja de césped.
+ * Esta clase puede ser utilizada como fondo principal en una aplicación Swing con ventanas internas.
+ *
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class FondoEscritorio extends JDesktopPane {
 
     private final int cantidadEstrellas = 100;
     private final int[] estrellasX = new int[cantidadEstrellas];
     private final int[] estrellasY = new int[cantidadEstrellas];
-
+    /**
+     * Constructor que inicializa la posición aleatoria de las estrellas para el fondo.
+     */
     public FondoEscritorio() {
         Random rand = new Random();
         for (int i = 0; i < cantidadEstrellas; i++) {
@@ -17,7 +27,19 @@ public class FondoEscritorio extends JDesktopPane {
             estrellasY[i] = rand.nextInt(1080); // alto estimado
         }
     }
-
+    /**
+     * Sobrescribe el método paintComponent para dibujar el fondo personalizado.
+     * Se incluyen:
+     * <ul>
+     *     <li>Un fondo azul oscuro que representa el cielo nocturno</li>
+     *     <li>Estrellas blancas distribuidas aleatoriamente</li>
+     *     <li>Una luna blanca como óvalo</li>
+     *     <li>Montañas grises dibujadas con un polígono</li>
+     *     <li>Césped verde al pie de la pantalla</li>
+     * </ul>
+     *
+     * @param g El contexto gráfico usado para el dibujo
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

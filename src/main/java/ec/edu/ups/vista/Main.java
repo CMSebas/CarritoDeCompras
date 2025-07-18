@@ -26,7 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * Clase principal que arranca la aplicación del sistema de carrito de compras.
+ * Permite seleccionar el tipo de almacenamiento (memoria o archivos),
+ * configura los DAOs respectivos, y gestiona el flujo de ventanas
+ * como login, registro, menú principal, e internacionalización.
+ *
+ * La clase también administra las vistas según el rol del usuario (ADMINISTRADOR o USUARIO).
+ *
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class Main {
     private static  CarritoDAO carritoDAO ;
     private static UsuarioDAO usuarioDAO;
@@ -40,7 +51,12 @@ public class Main {
     public static final MensajeInternacionalizacionHandler mensajes = new MensajeInternacionalizacionHandler("es", "EC");
 
 
-
+    /**
+     * Método principal que inicia la aplicación.
+     * Muestra la vista de selección de almacenamiento y configura los controladores iniciales.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         SelecionarAlmView selector = new SelecionarAlmView();
 
@@ -70,7 +86,11 @@ public class Main {
             }
         });
     }
-
+    /**
+     * Configura las instancias de los DAO según el tipo de almacenamiento seleccionado (Texto o Memoria).
+     *
+     * @param tipo Tipo de almacenamiento, puede ser "Texto" o "Memoria".
+     */
     private static void configurarDAOs(String tipo) {
         if (tipo.equals("Texto")) {
             usuarioDAO = new UsuarioDAOTexto(carpetaSeleccionada + File.separator + "usuarios.txt");
@@ -86,7 +106,10 @@ public class Main {
             preguntaDAO = new PreguntaDAOMemoria();
         }
     }
-
+    /**
+     * Muestra la ventana de login y prepara el controlador de usuario.
+     * También permite acceder a las vistas de recuperación y registro de usuario.
+     */
     public static void mostrarLogin() {
         LoginView loginView = new LoginView();
         EliminarUsuario eliminarUsuario = new EliminarUsuario();
@@ -214,7 +237,13 @@ public class Main {
             }
         });
     }
-
+    /**
+     * Muestra la ventana principal (menú) del sistema después de un login exitoso.
+     * Configura controladores de productos, carritos y usuarios, así como la internacionalización y acceso según el rol.
+     *
+     * @param usuario Usuario autenticado.
+     * @param usuarioController Instancia del controlador de usuario para acceso a vistas.
+     */
     public static void mostrarMenu(Usuario usuario,UsuarioController usuarioController ) {
         MenuPrincipalView menuView = new MenuPrincipalView(usuario);
 

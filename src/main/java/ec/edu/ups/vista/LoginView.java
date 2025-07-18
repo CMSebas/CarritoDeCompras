@@ -3,7 +3,19 @@ package ec.edu.ups.vista;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
-
+/**
+ * Ventana principal para el inicio de sesión del usuario.
+ *
+ * Permite ingresar nombre de usuario y contraseña, así como acceder a las opciones
+ * de registro, recuperación de contraseña y regreso al menú anterior.
+ *
+ * Utiliza {@link MensajeInternacionalizacionHandler} para adaptar los textos al idioma seleccionado.
+ * Extiende {@link JFrame}.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class LoginView extends JFrame {
     private JPanel panelPrincipal;
     private JTextField txtUsername;

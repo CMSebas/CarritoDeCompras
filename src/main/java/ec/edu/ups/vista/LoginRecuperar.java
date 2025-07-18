@@ -4,6 +4,23 @@ import ec.edu.ups.modelo.Pregunta;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+/**
+ * Ventana gráfica que permite recuperar la contraseña de un usuario
+ * utilizando preguntas de seguridad previamente registradas.
+ *
+ * Muestra una pregunta aleatoria entre las configuradas por el usuario,
+ * y permite verificar la respuesta ingresada.
+ *
+ * Utiliza {@link MensajeInternacionalizacionHandler} para cambiar el idioma
+ * dinámicamente.
+ *
+ * Extiende {@link JFrame}.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
+
 
 public class LoginRecuperar extends JFrame {
     private JButton btnRecuperar;

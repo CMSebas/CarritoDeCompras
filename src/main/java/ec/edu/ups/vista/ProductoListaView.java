@@ -6,7 +6,15 @@ import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-
+/**
+ * Ventana interna (JInternalFrame) para listar y buscar productos registrados en el sistema.
+ * Permite visualizar productos en una tabla, buscar por nombre y cambiar idioma dinámicamente.
+ * Utiliza el patrón MVC, actuando como la vista del módulo de productos.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class ProductoListaView extends JInternalFrame {
 
     private JTextField txtBuscar;
@@ -16,7 +24,10 @@ public class ProductoListaView extends JInternalFrame {
     private JButton btnListar;
     private JLabel lblNombre;
     private DefaultTableModel modelo;
-
+    /**
+     * Constructor que inicializa los componentes de la interfaz gráfica,
+     * configurando el modelo de la tabla y los botones principales.
+     */
     public ProductoListaView() {
 
         setContentPane(plPrincipal2);

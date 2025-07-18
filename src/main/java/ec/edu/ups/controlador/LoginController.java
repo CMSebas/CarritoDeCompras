@@ -15,6 +15,20 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Controlador encargado de gestionar el proceso de recuperación de contraseña
+ * mediante preguntas de seguridad.
+ *
+ * Este controlador coordina la interacción entre la vista {@link LoginRecuperar},
+ * los modelos {@link Usuario}, {@link Pregunta}, {@link Respuesta} y los DAOs respectivos.
+ *
+ * Utiliza una pregunta aleatoria previamente respondida por el usuario para validar
+ * su identidad y mostrarle su contraseña si la respuesta es correcta.
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
+
 public class LoginController {
 
     private final UsuarioDAO usuarioDAO;
@@ -24,6 +38,16 @@ public class LoginController {
     private Pregunta preguntaActual;
     private String usuarioActual;
 
+    /**
+     * Constructor que inicializa los DAOs y la vista de recuperación.
+     * También configura los eventos de los botones.
+     *
+     * @param usuarioDAO DAO para operaciones con usuarios
+     * @param preguntaDAO DAO para acceder a las preguntas
+     * @param respuestaDAO DAO para acceder a las respuestas de seguridad
+     * @param recuperarView Vista que permite la recuperación de contraseña
+     */
+
     public LoginController(UsuarioDAO usuarioDAO, PreguntaDAO preguntaDAO, RespuestaDAO respuestaDAO, LoginRecuperar recuperarView) {
         this.usuarioDAO = usuarioDAO;
         this.preguntaDAO = preguntaDAO;
@@ -32,7 +56,17 @@ public class LoginController {
         configurar();
     }
 
+    /**
+     * Método privado que configura los listeners de la vista.
+     * Gestiona el flujo completo del proceso de recuperación:
+     * 1. Buscar usuario.
+     * 2. Validar respuestas almacenadas.
+     * 3. Mostrar pregunta aleatoria.
+     * 4. Verificar respuesta ingresada.
+     */
+
     private void configurar() {
+        // Botón para recuperar contraseña
         recuperarView.getBtnRecuperar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,7 +96,7 @@ public class LoginController {
                 }
             }
         });
-
+        // Botón para verificar respuesta ingresada
         recuperarView.getBtnVerificar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

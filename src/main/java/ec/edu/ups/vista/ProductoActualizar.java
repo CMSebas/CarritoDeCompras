@@ -3,7 +3,21 @@ package ec.edu.ups.vista;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
-
+/**
+ * Ventana interna (JInternalFrame) para actualizar y eliminar productos.
+ *
+ * Permite al usuario ingresar un código, nombre y precio de un producto
+ * para actualizar sus datos o eliminar un producto por su código.
+ *
+ * Los textos de la interfaz pueden cambiar dinámicamente según el idioma
+ * utilizando la clase {@link MensajeInternacionalizacionHandler}.
+ *
+ * Esta clase forma parte de la interfaz gráfica Swing.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class ProductoActualizar extends JInternalFrame {
 
     private JPanel panelPrincipalAct;
@@ -17,7 +31,10 @@ public class ProductoActualizar extends JInternalFrame {
     private JLabel lblCodigo;
     private JLabel lblNombre;
     private JLabel lblPrecio;
-
+    /**
+     * Constructor por defecto.
+     * Configura el tamaño y los atributos básicos de la ventana.
+     */
     public ProductoActualizar() {
         setContentPane(panelPrincipalAct);
         setTitle("Datos del Producto");

@@ -3,7 +3,18 @@ package ec.edu.ups.vista;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
-
+/**
+ * Clase que representa la vista de eliminación de usuarios del sistema.
+ *
+ * Esta clase extiende {@link JInternalFrame} y proporciona una interfaz gráfica
+ * para que el administrador pueda eliminar usuarios por su nombre de usuario.
+ *
+ * Es compatible con la internacionalización y usa íconos representativos.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class EliminarUsuario extends JInternalFrame {
     private JLabel lblTittle;
     private JLabel jblUsuario;

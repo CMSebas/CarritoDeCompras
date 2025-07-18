@@ -7,7 +7,19 @@ import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-
+/**
+ * Clase que representa una ventana interna para actualizar la cantidad de productos en los carritos.
+ * Permite buscar un carrito por su código, visualizar los productos contenidos, modificar la cantidad,
+ * y mostrar los totales del carrito actualizado.
+ *
+ * Además, ofrece soporte para internacionalización a través del uso de la clase MensajeInternacionalizacionHandler.
+ *
+ * Esta clase forma parte del módulo de interfaz gráfica del sistema.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class CarritoActualizar extends JInternalFrame {
     private JPanel panelPrincipal2;
     private JTextField txtBuscar;
@@ -16,7 +28,11 @@ public class CarritoActualizar extends JInternalFrame {
     private JButton btnActualizar;
     private JLabel lblNombre;
     private DefaultTableModel modelo;
-
+    /**
+     * Constructor que inicializa la ventana con su layout, título,
+     * configuración de botones y modelo de tabla con edición habilitada
+     * solo en la columna de cantidad.
+     */
     public CarritoActualizar() {
         setContentPane(panelPrincipal2);
         setTitle("Datos del Producto");
@@ -42,7 +58,12 @@ public class CarritoActualizar extends JInternalFrame {
 
 
     }
-
+    /**
+     * Cambia los textos visibles de los componentes de la ventana
+     * según el idioma proporcionado por el handler de internacionalización.
+     *
+     * @param mensajes Manejador de internacionalización que contiene los textos localizados.
+     */
     public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
         setTitle(mensajes.get("carrito.actualizar.tabTitulo"));
         btnBuscar.setText(mensajes.get("carrito.actualizar.btnBuscar"));
@@ -59,6 +80,11 @@ public class CarritoActualizar extends JInternalFrame {
                 mensajes.get("carrito.actualizar.tbl.cantidad")
         });
     }
+    /**
+     * Carga en la tabla todos los ítems de los carritos proporcionados.
+     *
+     * @param carritos Lista de carritos cuyos productos se van a mostrar en la tabla.
+     */
 
     public void cargarCarritos(List<Carrito> carritos) {
         modelo.setRowCount(0);
@@ -130,7 +156,11 @@ public class CarritoActualizar extends JInternalFrame {
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
     }
-
+    /**
+     * Carga en la tabla los ítems de un carrito específico (sin mostrar el código del carrito).
+     *
+     * @param items Lista de ítems del carrito.
+     */
     public void cargarDatos(List<ItemCarrito> items) {
         modelo.setRowCount(0);
         for (ItemCarrito item : items) {
@@ -142,7 +172,11 @@ public class CarritoActualizar extends JInternalFrame {
             });
         }
     }
-
+    /**
+     * Muestra un mensaje emergente al usuario.
+     *
+     * @param mensaje Texto del mensaje a mostrar.
+     */
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }

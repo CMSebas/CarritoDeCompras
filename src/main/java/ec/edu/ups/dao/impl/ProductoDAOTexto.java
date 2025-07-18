@@ -7,24 +7,47 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * Implementación de {@link ProductoDAO} que utiliza archivos de texto
+ * para almacenar y recuperar objetos de tipo {@link Producto}.
+ *
+ * Cada producto se guarda en una línea del archivo con formato: código;nombre;precio
+ * Este DAO es útil para persistencia simple sin necesidad de bases de datos ni archivos binarios.
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class ProductoDAOTexto implements ProductoDAO {
 
     private final String rutaArchivo;
     private List<Producto> productos;
-
+    /**
+     * Constructor que recibe la ruta del archivo de texto.
+     * Al inicializarse, carga los productos existentes desde el archivo.
+     *
+     * @param rutaArchivo Ruta del archivo de texto (ej. "productos.txt")
+     */
     public ProductoDAOTexto(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
         this.productos = new ArrayList<>();
         cargarDesdeArchivo();
     }
-
+    /**
+     * Crea un nuevo producto y lo guarda en el archivo.
+     *
+     * @param producto Producto a registrar
+     */
     @Override
     public void crear(Producto producto) {
         productos.add(producto);
         guardarEnArchivo();
     }
-
+    /**
+     * Busca un producto por su código único.
+     *
+     * @param codigo Código del producto
+     * @return El producto encontrado o {@code null} si no existe
+     */
     @Override
     public Producto buscarPorCodigo(int codigo) {
         for (Producto p : productos) {
@@ -34,7 +57,13 @@ public class ProductoDAOTexto implements ProductoDAO {
         }
         return null;
     }
-
+    /**
+     * Busca productos cuyo nombre coincida exactamente con el nombre proporcionado,
+     * ignorando mayúsculas y minúsculas.
+     *
+     * @param nombre Nombre del producto
+     * @return Lista de productos encontrados
+     */
     @Override
     public List<Producto> buscarPorNombre(String nombre) {
         List<Producto> encontrados = new ArrayList<>();
@@ -45,7 +74,12 @@ public class ProductoDAOTexto implements ProductoDAO {
         }
         return encontrados;
     }
-
+    /**
+     * Actualiza un producto existente con el mismo código en la lista.
+     * Luego, reescribe el archivo completo.
+     *
+     * @param producto Producto actualizado
+     */
     @Override
     public void actualizar(Producto producto) {
         for (int i = 0; i < productos.size(); i++) {
@@ -56,7 +90,12 @@ public class ProductoDAOTexto implements ProductoDAO {
         }
         guardarEnArchivo();
     }
-
+    /**
+     * Elimina un producto por su código, si existe.
+     * Luego, reescribe el archivo completo.
+     *
+     * @param codigo Código del producto a eliminar
+     */
     @Override
     public void eliminar(int codigo) {
         for (int i = 0; i < productos.size(); i++) {
@@ -67,12 +106,19 @@ public class ProductoDAOTexto implements ProductoDAO {
         }
         guardarEnArchivo();
     }
-
+    /**
+     * Lista todos los productos actualmente cargados en memoria.
+     *
+     * @return Lista de productos
+     */
     @Override
     public List<Producto> listarTodos() {
         return productos;
     }
-
+    /**
+     * Guarda todos los productos de la lista en el archivo de texto,
+     * sobreescribiéndolo completamente.
+     */
     private void guardarEnArchivo() {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo))) {
             for (Producto p : productos) {
@@ -83,7 +129,10 @@ public class ProductoDAOTexto implements ProductoDAO {
             System.out.println("Error al guardar productos.");
         }
     }
-
+    /**
+     * Carga los productos desde el archivo de texto si existe.
+     * Cada línea se espera en el formato: código;nombre;precio
+     */
     private void cargarDesdeArchivo() {
         File archivo = new File(rutaArchivo);
         if (!archivo.exists()) {

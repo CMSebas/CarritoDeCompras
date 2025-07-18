@@ -1,5 +1,19 @@
 package ec.edu.ups.vista;
-
+/**
+ * Ventana principal para el registro de nuevos usuarios.
+ *
+ * Esta interfaz permite ingresar datos personales, nombre de usuario, contraseña
+ * y seleccionar 3 preguntas de seguridad con sus respectivas respuestas.
+ *
+ * Utiliza componentes Swing para la interfaz gráfica y admite internacionalización
+ * mediante {@link MensajeInternacionalizacionHandler}.
+ *
+ * Extiende {@link JFrame}.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 import ec.edu.ups.modelo.Pregunta;
 
 import javax.swing.*;

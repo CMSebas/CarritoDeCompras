@@ -6,7 +6,15 @@ import ec.edu.ups.servicio.FondoEscritorio;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
-
+/**
+ * Clase que representa la ventana principal del sistema con menús para gestionar productos, carritos y usuarios.
+ * Permite configurar los textos según el idioma seleccionado y personalizar el acceso a menús según el rol del usuario.
+ * Utiliza una interfaz MDI con un fondo personalizado animado.
+ *
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class MenuPrincipalView extends JFrame {
     private JMenuBar menuBar;
     private JMenu menuProducto;
@@ -34,7 +42,11 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemCrearUsuario;
     private JMenuItem menuItemEliminarUsuario;
     private JMenuItem menuItemListarUsuarios;
-
+    /**
+     * Constructor principal que inicializa la interfaz gráfica del menú según el rol del usuario.
+     *
+     * @param usuarioLogueado Usuario actualmente autenticado en el sistema.
+     */
     public MenuPrincipalView(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
 
@@ -147,8 +159,13 @@ public class MenuPrincipalView extends JFrame {
     public void setMenuItemCerrarSesion(JMenuItem menuItemCerrarSesion) {
         this.menuItemCerrarSesion = menuItemCerrarSesion;
     }
-
+    /**
+     * Cambia los textos de los menús según el idioma internacionalizado proporcionado.
+     *
+     * @param mensajes Instancia que gestiona los textos internacionalizados.
+     */
     public void configurarTextosMenus(MensajeInternacionalizacionHandler mensajes) {
+        setTitle(Main.mensajes.get("menu.titulo"));
         menuProducto.setText(mensajes.get("menu.producto"));
         menuProducto2.setText(mensajes.get("menu.carrito"));
         menuIdioma.setText(mensajes.get("menu.idioma"));
@@ -219,6 +236,9 @@ public class MenuPrincipalView extends JFrame {
         this.menuItemBuscarCarrito = menuItemBuscarCarrito;
     }
 
+    /**
+     * Configura qué menús deben mostrarse u ocultarse según el rol del usuario (ADMINISTRADOR o USUARIO).
+     */
     private void configurarMenusSegunRol() {
         if (usuarioLogueado.getRol() == Rol.USUARIO) {
 
@@ -307,7 +327,11 @@ public class MenuPrincipalView extends JFrame {
     public void setMenuItemIngles(JMenuItem menuItemIngles) {
         this.menuItemIngles = menuItemIngles;
     }
-
+    /**
+     * Obtiene el panel de escritorio personalizado donde se insertan las ventanas internas.
+     *
+     * @return FondoEscritorio personalizado.
+     */
     public JMenuItem getMenuItemFrances() {
         return menuItemFrances;
     }

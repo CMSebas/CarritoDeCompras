@@ -5,6 +5,19 @@ import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+/**
+ * Ventana interna que permite listar los usuarios registrados en el sistema.
+ *
+ * Esta vista muestra una tabla con los datos de los usuarios, incluyendo nombre,
+ * apellido, nombre de usuario y rol. También incluye soporte para internacionalización
+ * del contenido textual.
+ *
+ * Extiende {@link JInternalFrame} como parte del diseño MDI (Multiple Document Interface).
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 
 public class ListarUsuarios extends JInternalFrame {
     private JTable tblUsuarios;

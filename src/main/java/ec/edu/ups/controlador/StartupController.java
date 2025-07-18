@@ -9,7 +9,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
+/**
+ * Controlador responsable del proceso de inicialización del sistema.
+ * Permite seleccionar el tipo de almacenamiento (memoria o archivos) y
+ * configura los DAOs de acuerdo con la elección del usuario.
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ *
+ */
 public class StartupController {
 
     private UsuarioDAO usuarioDAO;
@@ -19,6 +27,12 @@ public class StartupController {
     private RespuestaDAO respuestaDAO;
     private File carpetaArchivos;
     private String tipoAlmacenamiento;
+
+    /**
+     * Inicia el proceso de selección del tipo de almacenamiento.
+     * Muestra una ventana para que el usuario elija entre "Memoria" o "Texto".
+     * Luego, configura los DAOs en función de la elección.
+     */
 
     public void inicializar() {
         SelecionarAlmView selector = new SelecionarAlmView();
@@ -54,7 +68,11 @@ public class StartupController {
 
         configurarDAOs();
     }
-
+    /**
+     * Configura los DAOs de acuerdo al tipo de almacenamiento seleccionado.
+     * Si se elige "Texto", se utilizan DAOs que trabajan con archivos.
+     * Si se elige "Memoria", se utilizan DAOs que almacenan los datos en listas en tiempo de ejecución.
+     */
     private void configurarDAOs() {
         if ("Texto".equals(tipoAlmacenamiento)) {
             String base = carpetaArchivos.getAbsolutePath() + File.separator;
@@ -72,7 +90,9 @@ public class StartupController {
             preguntaDAO = new PreguntaDAOMemoria();
         }
     }
-
+    /**
+     * @return DAO configurado para gestionar usuarios.
+     */
     public UsuarioDAO getUsuarioDAO() {
         return usuarioDAO;
     }

@@ -7,7 +7,19 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+/**
+ * Ventana interna (JInternalFrame) para añadir productos al sistema.
+ *
+ * Permite ingresar los datos de un producto como código, nombre y precio,
+ * y proporciona botones para aceptar y limpiar los campos. También puede
+ * mostrar productos en consola y cambiar los textos de la interfaz según el idioma.
+ *
+ * Utiliza internacionalización a través de {@link MensajeInternacionalizacionHandler}.
+ *
+ * @author Sebastián Cerón
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class ProductoAnadirView extends JInternalFrame {
 
     private JPanel panelPrincipal;
@@ -19,7 +31,10 @@ public class ProductoAnadirView extends JInternalFrame {
     private JLabel lblPrecio;
     private JLabel lblNombre;
     private JLabel lblCodigo;
-
+    /**
+     * Constructor que inicializa la ventana de ingreso de productos.
+     * Configura los botones, tamaño, cierre, y comportamiento de limpieza de campos.
+     */
     public ProductoAnadirView() {
 
 

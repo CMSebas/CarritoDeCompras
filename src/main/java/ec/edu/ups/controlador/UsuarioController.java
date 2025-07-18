@@ -9,7 +9,17 @@ import ec.edu.ups.vista.LoginView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Controlador encargado de gestionar operaciones relacionadas con usuarios.
+ * Incluye autenticación, eliminación y listado de usuarios, integrando las vistas
+ * {@link LoginView}, {@link EliminarUsuario} y {@link ListarUsuarios}.
+ *
+ * Se conecta con el {@link UsuarioDAO} para realizar operaciones CRUD
+ * y maneja los mensajes internacionalizados mediante {@link MensajeInternacionalizacionHandler}.
+ * @author [Sebastian Ceron]
+ * @version 1.0
+ * @date 18-07-2025
+ */
 public class UsuarioController {
 
     private Usuario usuario;
@@ -19,6 +29,15 @@ public class UsuarioController {
     private EliminarUsuario eliminarUsuarioView;
     private ListarUsuarios listarUsuariosView;
 
+    /**
+     * Constructor que inicializa el controlador de usuarios con las vistas y el DAO.
+     *
+     * @param usuarioDAO DAO para manejar usuarios
+     * @param loginView Vista de inicio de sesión
+     * @param mensajes Manejador de internacionalización de mensajes
+     * @param eliminarUsuarioView Vista para eliminar usuarios
+     * @param listarUsuariosView Vista para listar usuarios
+     */
     public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView,MensajeInternacionalizacionHandler mensajes,EliminarUsuario eliminarUsuarioView,ListarUsuarios listarUsuariosView) {
         this.usuarioDAO = usuarioDAO;
         this.loginView = loginView;
@@ -45,7 +64,12 @@ public class UsuarioController {
     public void setEliminarUsuarioView(EliminarUsuario eliminarUsuarioView) {
         this.eliminarUsuarioView = eliminarUsuarioView;
     }
-
+    /**
+     * Obtiene los datos de todos los usuarios registrados y los convierte
+     * en una matriz para mostrar en una tabla.
+     *
+     * @return Arreglo bidimensional con los datos: nombre, apellido, usuario, rol.
+     */
     public Object[][] obtenerDatosUsuariosParaTabla() {
         var usuarios = usuarioDAO.listarTodos();
         Object[][] datos = new Object[usuarios.size()][4];
@@ -59,7 +83,10 @@ public class UsuarioController {
         }
         return datos;
     }
-
+    /**
+     * Configura los eventos (listeners) para las vistas conectadas al controlador.
+     * Incluye inicio de sesión, eliminación y listado de usuarios.
+     */
     private void configurarEventosEnVistas(){
         loginView.getBtnIniciarSesion().addActionListener(new ActionListener() {
             @Override
@@ -89,7 +116,10 @@ public class UsuarioController {
 
 
     }
-
+    /**
+     * Autentica al usuario a partir de los datos ingresados en la vista de login.
+     * Si el usuario es válido, cierra la vista; si no, muestra un mensaje de error.
+     */
     private void autenticar(){
         String username = loginView.getTxtUsername().getText();
         String contrasenia = loginView.getTxtContrasenia().getText();
@@ -101,7 +131,9 @@ public class UsuarioController {
             loginView.dispose();
         }
     }
-
+    /**
+     * @return Usuario autenticado actualmente o null si no se ha autenticado.
+     */
     public Usuario getUsuarioAutenticado(){
         return usuario;
     }

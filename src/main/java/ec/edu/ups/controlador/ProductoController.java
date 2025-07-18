@@ -6,6 +6,7 @@ import ec.edu.ups.modelo.Producto;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.vista.*;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ProductoController {
         this.monedaActual = monedaActual;
     }
     public void actualizarVistaLista() {
-        listarProductos(); // sigue siendo privado
+        listarProductos();
     }
 
     private void configurarEventosEnVistas() {
@@ -103,7 +104,13 @@ public class ProductoController {
     private void guardarProducto() {
         int codigo = Integer.parseInt(productoAnadirView.getTxtCodigo().getText());
         String nombre = productoAnadirView.getTxtNombre().getText();
-        double precio = Double.parseDouble(productoAnadirView.getTxtPrecio().getText());
+        double precio;
+        try {
+            precio = Double.parseDouble(productoAnadirView.getTxtPrecio().getText());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(productoAnadirView, "Por favor, ingrese un valor numérico válido para el precio.");
+            return;
+        }
 
         productoDAO.crear(new Producto(codigo, nombre, precio));
         productoAnadirView.mostrarMensaje(mensajes.get("producto.guardadoCorrectamente"));

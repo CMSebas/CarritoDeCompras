@@ -13,6 +13,7 @@ public class LoginView extends JFrame {
     private JButton btnRecuperar;
     private JLabel lblUsuario;
     private JLabel lblContrasena;
+    private JButton btnRegresar;
 
     public LoginView() {
         setContentPane(panelPrincipal);
@@ -20,6 +21,14 @@ public class LoginView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLocationRelativeTo(null);
+    }
+
+    public JButton getBtnRegresar() {
+        return btnRegresar;
+    }
+
+    public void setBtnRegresar(JButton btnRegresar) {
+        this.btnRegresar = btnRegresar;
     }
 
     public JPanel getPanelPrincipal() {
@@ -35,6 +44,7 @@ public class LoginView extends JFrame {
         btnIniciarSesion.setIcon(new ImageIcon(getClass().getResource("/icons/usuario.png")));
         btnRecuperar.setIcon(new ImageIcon(getClass().getResource("/icons/recuperar.png")));
         btnRegistrate.setIcon(new ImageIcon(getClass().getResource("/icons/crear.png")));
+        btnRegresar.setText(mensajes.get("login.btnRegresar"));
     }
 
     public JButton getBtnRecuperar() {

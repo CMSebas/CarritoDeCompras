@@ -1,6 +1,10 @@
 package ec.edu.ups.modelo;
 
-public class ItemCarrito {
+import java.io.Serializable;
+
+public class ItemCarrito implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Producto producto;
     private int cantidad;
 

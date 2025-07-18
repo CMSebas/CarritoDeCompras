@@ -107,55 +107,61 @@ public class CarritoController {
                 carritoListarTodos.cargarCarritos(todos,localeActual);
             }
         });
-        carritoEliminarItems.getBtnBuscar().addActionListener(e -> {
-            String textoCodigo = carritoEliminarItems.getTxtCodigoCarrito().getText();
-            int codigo;
+        carritoEliminarItems.getBtnBuscar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String textoCodigo = carritoEliminarItems.getTxtCodigoCarrito().getText();
+                int codigo;
 
-            try {
-                codigo = Integer.parseInt(textoCodigo);
-            } catch (NumberFormatException ex) {
-                carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.codigoInvalido"));
-                return;
-            }
+                try {
+                    codigo = Integer.parseInt(textoCodigo);
+                } catch (NumberFormatException ex) {
+                    carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.codigoInvalido"));
+                    return;
+                }
 
-            Carrito carrito = carritoDAO.buscarPorCodigo(codigo);
-            if (carrito != null) {
-                carritoEliminarItems.cargarProductos(carrito.obtenerItems());
-            } else {
-                carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.noExiste"));
+                Carrito carrito = carritoDAO.buscarPorCodigo(codigo);
+                if (carrito != null) {
+                    carritoEliminarItems.cargarProductos(carrito.obtenerItems());
+                } else {
+                    carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.noExiste"));
+                }
             }
         });
 
-        carritoEliminarItems.getBtnEliminarProducto().addActionListener(e -> {
-            String codCarritoStr = carritoEliminarItems.getTxtCodigoCarrito().getText();
-            int codCarrito ;
+        carritoEliminarItems.getBtnEliminarProducto().addActionListener(new ActionListener() {
+            @Override
+                    public void actionPerformed(ActionEvent e) {
+                String codCarritoStr = carritoEliminarItems.getTxtCodigoCarrito().getText();
+                int codCarrito ;
 
-            try {
-                codCarrito = Integer.parseInt(codCarritoStr);
-            } catch (NumberFormatException ex) {
-                carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.noValid"));
-                return;
+                try {
+                    codCarrito = Integer.parseInt(codCarritoStr);
+                } catch (NumberFormatException ex) {
+                    carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.noValid"));
+                    return;
+                }
+                Carrito carrito = carritoDAO.buscarPorCodigo(codCarrito);
+
+                if (carrito == null) {
+                    carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.noEncontrado"));
+                    return;
+                }
+
+                int codProducto = carritoEliminarItems.obtenerProductoSeleccionado();
+                if (codProducto == -1) {
+                    carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.seleccionaProducto"));
+                    return;
+                }
+
+                carrito.eliminarProducto(codProducto);
+                carritoDAO.actualizar(carrito);
+
+
+                carritoEliminarItems.cargarProductos(carrito.obtenerItems());
+
+                carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.productoEliminado"));
             }
-            Carrito carrito = carritoDAO.buscarPorCodigo(codCarrito);
-
-            if (carrito == null) {
-                carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.noEncontrado"));
-                return;
-            }
-
-            int codProducto = carritoEliminarItems.obtenerProductoSeleccionado();
-            if (codProducto == -1) {
-                carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.seleccionaProducto"));
-                return;
-            }
-
-            carrito.eliminarProducto(codProducto);
-            carritoDAO.actualizar(carrito);
-
-
-            carritoEliminarItems.cargarProductos(carrito.obtenerItems());
-
-            carritoEliminarItems.mostrarMensaje(mensajes.get("carrito.productoEliminado"));
         });
         carritoBuscar.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
@@ -194,7 +200,7 @@ public class CarritoController {
         carritoActualizar.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buscarCarritosPorUsuarioParaActualizar(); // ✅
+                buscarCarritoPorCodigoParaActualizar();
             }
         });
         carritoListarUsuario.getBtnListar().addActionListener(new ActionListener() {
@@ -244,17 +250,39 @@ public class CarritoController {
 
     }
 
-    private void cargarProductos(){
-
+    private void cargarProductos() {
         List<ItemCarrito> items = carrito.obtenerItems();
         DefaultTableModel modelo = (DefaultTableModel) carritoAnadirView.getTblProductos().getModel();
         modelo.setNumRows(0);
+
         for (ItemCarrito item : items) {
-            modelo.addRow(new Object[]{ item.getProducto().getCodigo(),
-                    item.getProducto().getNombre(),
-                    item.getProducto().getPrecio(),
-                    item.getCantidad(),
-                    item.getProducto().getPrecio() * item.getCantidad() });
+            Producto producto = item.getProducto();
+
+            if (producto != null) {
+                modelo.addRow(new Object[]{
+                        producto.getCodigo(),
+                        producto.getNombre(),
+                        producto.getPrecio(),
+                        item.getCantidad(),
+                        producto.getPrecio() * item.getCantidad()
+                });
+            } else {
+                System.out.println("⚠ Advertencia: ItemCarrito con producto nulo (carrito código " + carrito.getCodigo() + ")");
+            }
+        }
+    }
+
+    private void buscarCarritoPorCodigoParaActualizar() {
+        try {
+            int codigo = Integer.parseInt(carritoActualizar.getTxtBuscar().getText());
+            Carrito carrito = carritoDAO.buscarPorCodigo(codigo);
+            if (carrito == null) {
+                carritoActualizar.mostrarMensaje(mensajes.get("carrito.noEncontrado"));
+            } else {
+                carritoActualizar.cargarCarritos(List.of(carrito)); // Mostrar solo ese carrito
+            }
+        } catch (NumberFormatException e) {
+            carritoActualizar.mostrarMensaje(mensajes.get("carrito.codigoInvalido"));
         }
     }
 
@@ -262,39 +290,29 @@ public class CarritoController {
 
     private void actualizarCarritoDesdeTabla() {
         DefaultTableModel modelo = carritoActualizar.getModelo();
+        int codCarrito = Integer.parseInt(carritoActualizar.getTxtBuscar().getText());
 
 
-        String username = carritoActualizar.getTxtBuscar().getText();
-        List<Carrito> carritos = carritoDAO.buscarPorUsuario(username);
 
-
-        for (Carrito c : carritos) {
-            c.obtenerItems().clear();
+        Carrito carrito = carritoDAO.buscarPorCodigo(codCarrito);
+        if (carrito == null) {
+            carritoActualizar.mostrarMensaje(mensajes.get("carrito.noEncontrado"));
+            return;
         }
+
+        carrito.obtenerItems().clear();
 
 
         for (int i = 0; i < modelo.getRowCount(); i++) {
-            int codCarrito = Integer.parseInt(modelo.getValueAt(i, 0).toString());
             int codProducto = Integer.parseInt(modelo.getValueAt(i, 1).toString());
             String nombre = modelo.getValueAt(i, 2).toString();
             double precio = Double.parseDouble(modelo.getValueAt(i, 3).toString());
             int cantidad = Integer.parseInt(modelo.getValueAt(i, 4).toString());
 
-
-            for (Carrito c : carritos) {
-                if (c.getCodigo() == codCarrito) {
-                    Producto producto = new Producto(codProducto, nombre, precio);
-                    c.agregarProducto(producto, cantidad);
-                    break;
-                }
-            }
+            carrito.agregarProducto(new Producto(codProducto, nombre, precio), cantidad);
         }
 
-
-        for (Carrito c : carritos) {
-            carritoDAO.actualizar(c);
-        }
-
+        carritoDAO.actualizar(carrito);
         carritoActualizar.mostrarMensaje(mensajes.get("carrito.actualizado"));
     }
 

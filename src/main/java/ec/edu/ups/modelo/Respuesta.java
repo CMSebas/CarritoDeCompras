@@ -1,31 +1,34 @@
 package ec.edu.ups.modelo;
 
-public class Respuesta {
-    private int idPregunta;
-    private String texto;
-    private String usuario;
+import java.io.Serializable;
 
-    public Respuesta(int idPregunta, String texto, String usuario) {
-        this.idPregunta = idPregunta;
-        this.texto = texto;
+public class Respuesta implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Pregunta pregunta;
+    private Usuario usuario;
+    private String texto;
+
+
+    public Respuesta(Pregunta pregunta, Usuario usuario, String texto) {
+        this.pregunta = pregunta;
         this.usuario = usuario;
+        this.texto = texto;
     }
 
-    public String getUsuario() {
+    public Pregunta getPregunta() {
+        return pregunta;
+    }
+
+    public void setPregunta(Pregunta pregunta) {
+        this.pregunta = pregunta;
+    }
+
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-
-    public int getIdPregunta() {
-        return idPregunta;
-    }
-
-    public void setIdPregunta(int idPregunta) {
-        this.idPregunta = idPregunta;
     }
 
     public String getTexto() {

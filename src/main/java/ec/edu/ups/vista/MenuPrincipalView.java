@@ -29,9 +29,11 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemEspanol;
     private JMenuItem menuItemIngles;
     private JMenuItem menuItemFrances;
-    private static String idiomaSeleccionado = "ES"; // valores: "ES", "EN", "FR"
+    private static String idiomaSeleccionado = "ES";
     private JMenuItem menuItemCerrarSesion;
     private JMenuItem menuItemCrearUsuario;
+    private JMenuItem menuItemEliminarUsuario;
+    private JMenuItem menuItemListarUsuarios;
 
     public MenuPrincipalView(Usuario usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
@@ -72,6 +74,10 @@ public class MenuPrincipalView extends JFrame {
         menuUsuario = new JMenu(Main.mensajes.get("menu.usuario"));
         menuItemCrearUsuario = new JMenuItem(Main.mensajes.get("menu.usuario.crear"));
         menuUsuario.add(menuItemCrearUsuario);
+            menuItemEliminarUsuario = new JMenuItem(Main.mensajes.get("menu.usuario.eliminar"));
+        menuUsuario.add(menuItemEliminarUsuario);
+        menuItemListarUsuarios = new JMenuItem(Main.mensajes.get("menu.usuarios.listarUsuarios"));
+        menuUsuario.add(menuItemListarUsuarios);
         menuItemCerrarSesion = new JMenuItem(Main.mensajes.get("menu.salir.cerrarSesion"));
         menuUsuario.add(menuItemCerrarSesion);
         menuIdioma = new JMenu(Main.mensajes.get("menu.idioma"));
@@ -104,13 +110,17 @@ public class MenuPrincipalView extends JFrame {
 
     }
 
+    public JMenuItem getMenuItemListarUsuarios() {
+        return menuItemListarUsuarios;
+    }
+
+
+
     public JMenuItem getMenuItemCrearUsuario() {
         return menuItemCrearUsuario;
     }
 
-    public void setMenuItemCrearUsuario(JMenuItem menuItemCrearUsuario) {
-        this.menuItemCrearUsuario = menuItemCrearUsuario;
-    }
+
 
     public JMenuItem getMenuItemEliminarCarritoItems() {
         return menuItemEliminarCarritoItems;
@@ -120,21 +130,15 @@ public class MenuPrincipalView extends JFrame {
         this.menuItemEliminarCarritoItems = menuItemEliminarCarritoItems;
     }
 
-    public Usuario getUsuarioLogueado() {
-        return usuarioLogueado;
-    }
 
-    public void setUsuarioLogueado(Usuario usuarioLogueado) {
-        this.usuarioLogueado = usuarioLogueado;
-    }
+
+
 
     public JMenu getMenuUsuario() {
         return menuUsuario;
     }
 
-    public void setMenuUsuario(JMenu menuUsuario) {
-        this.menuUsuario = menuUsuario;
-    }
+
 
     public JMenuItem getMenuItemCerrarSesion() {
         return menuItemCerrarSesion;
@@ -164,12 +168,20 @@ public class MenuPrincipalView extends JFrame {
         menuItemListarTodosCarritos.setText(mensajes.get("menu.carrito.listarTodos"));
 
         menuItemCrearUsuario.setText(mensajes.get("menu.usuario.crear"));
+        menuItemEliminarUsuario.setText(mensajes.get("menu.usuario.eliminar"));
+        menuItemListarUsuarios.setText(mensajes.get("menu.usuarios.listarUsuarios"));
         menuItemCerrarSesion.setText(mensajes.get("menu.salir.cerrarSesion"));
 
         menuItemEspanol.setText(mensajes.get("menu.idioma.espanol"));
         menuItemIngles.setText(mensajes.get("menu.idioma.ingles"));
         menuItemFrances.setText(mensajes.get("menu.idioma.frances"));
     }
+
+    public JMenuItem getMenuItemEliminarUsuario() {
+        return menuItemEliminarUsuario;
+    }
+
+
 
     public JMenuItem getMenuItemListarTodosCarritos() {
         return menuItemListarTodosCarritos;
@@ -179,13 +191,9 @@ public class MenuPrincipalView extends JFrame {
         return menuItemEliminarCarrito;
     }
 
-    public void setMenuItemEliminarCarrito(JMenuItem menuItemEliminarCarrito) {
-        this.menuItemEliminarCarrito = menuItemEliminarCarrito;
-    }
 
-    public void setMenuItemListarTodosCarritos(JMenuItem menuItemListarTodosCarritos) {
-        this.menuItemListarTodosCarritos = menuItemListarTodosCarritos;
-    }
+
+
 
     public JMenuItem getMenuItemListarCarritosUsuario() {
         return menuItemListarCarritosUsuario;

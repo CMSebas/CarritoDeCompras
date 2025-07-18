@@ -33,33 +33,33 @@ public class LoginController {
     }
 
     private void configurar() {
-        recuperarView.getBtnRecuperar().addActionListener(e -> {
-            usuarioActual = recuperarView.getTxtUsuario().getText().trim();
-            Usuario u = usuarioDAO.buscarPorUsername(usuarioActual);
+        recuperarView.getBtnRecuperar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                usuarioActual = recuperarView.getTxtUsuario().getText().trim();
+                Usuario u = usuarioDAO.buscarPorUsername(usuarioActual);
 
-            if (u == null) {
-                JOptionPane.showMessageDialog(recuperarView, Main.mensajes.get("loginRecuperar.usuarioNoEncontrado"));
-                return;
-            }
+                if (u == null) {
+                    JOptionPane.showMessageDialog(recuperarView, Main.mensajes.get("loginRecuperar.usuarioNoEncontrado"));
+                    return;
+                }
 
+                List<Respuesta> respuestas = respuestaDAO.buscarPorUsuario(u);
+                if (!u.tieneMinimoDeRespuestas(respuestas)) {
+                    JOptionPane.showMessageDialog(recuperarView, Main.mensajes.get("loginRecuperar.pocasRespuestas"));
+                    return;
+                }
 
-            List<Respuesta> respuestas = respuestaDAO.buscarPorUsuario(usuarioActual);
-            if (respuestas.size() < 3) {
-                JOptionPane.showMessageDialog(recuperarView, Main.mensajes.get("loginRecuperar.pocasRespuestas"));
-                return;
-            }
+                Respuesta respuestaSeleccionada = respuestas.get(new Random().nextInt(respuestas.size()));
 
-
-            Respuesta respuestaSeleccionada = respuestas.get(new Random().nextInt(respuestas.size()));
-
-
-            Pregunta pregunta = preguntaDAO.buscarPorId(respuestaSeleccionada.getIdPregunta());
-            if (pregunta != null) {
-                preguntaActual = pregunta;
-                recuperarView.setPreguntaActual(pregunta); // Guarda la pregunta actual
-                recuperarView.getLblPreguntaAle().setText(pregunta.getTexto());
-            } else {
-                JOptionPane.showMessageDialog(recuperarView, Main.mensajes.get("lloginRecuperar.errorPregunta"));
+                Pregunta pregunta = respuestaSeleccionada.getPregunta();
+                if (pregunta != null) {
+                    preguntaActual = pregunta;
+                    recuperarView.setPreguntaActual(pregunta);
+                    recuperarView.getLblPreguntaAle().setText(pregunta.getTexto());
+                } else {
+                    JOptionPane.showMessageDialog(recuperarView, Main.mensajes.get("loginRecuperar.errorPregunta"));
+                }
             }
         });
 
@@ -69,14 +69,14 @@ public class LoginController {
                 String respuestaIngresada = recuperarView.getTxtRespuesta().getText();
 
 
-                List<Respuesta> respuestas = respuestaDAO.buscarPorUsuario(usuarioActual);
+                Usuario usuario = usuarioDAO.buscarPorUsername(usuarioActual);
+                List<Respuesta> respuestas = respuestaDAO.buscarPorUsuario(usuario);
 
                 boolean acierto = false;
                 for (Respuesta r : respuestas) {
-                    if (r.getIdPregunta() == preguntaActual.getId()
+                    if (r.getPregunta().getId() == preguntaActual.getId()
                             && r.getTexto().equalsIgnoreCase(respuestaIngresada)) {
                         acierto = true;
-                        break;
                     }
                 }
 

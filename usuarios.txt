@@ -1,0 +1,31 @@
+admin;Admin;Sistema;Admin@123;ADMINISTRADOR
+--------------------------
+sebas;ceron;0107529729;Rafa@q;USUARIO
+Usuario: 0107529729
+Nombre: sebas
+Apellido: ceron
+Contraseña: Rafa@q
+--------------------------
+seqwea;asd;0107529724;Seba@w;USUARIO
+Usuario: 0107529724
+Nombre: seqwea
+Apellido: asd
+Contraseña: Seba@w
+--------------------------
+qwe;asd;0107529721;Fran@q;USUARIO
+Usuario: 0107529721
+Nombre: qwe
+Apellido: asd
+Contraseña: Fran@q
+--------------------------
+mateo;sebas;0107529758;Qwer@w;USUARIO
+Usuario: 0107529758
+Nombre: mateo
+Apellido: sebas
+Contraseña: Qwer@w
+--------------------------
+Usuario: 0107529729
+Nombre: se
+Apellido: cero
+Contraseña: Farqq@
+--------------------------

@@ -27,11 +27,12 @@ public class LoginCrearUsuario extends JFrame {
     private JLabel lblApellido;
     private JLabel lblUser;
     private JLabel lblContra;
+    private JLabel lbltittle;
 
 
     public LoginCrearUsuario(PreguntaDAO preguntaDAO) {
         setContentPane(panelPrincipal);
-        setTitle("Crear Usuario");
+        setTitle("loginCrear.lbltittle");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 400);
         setLocationRelativeTo(null);
@@ -47,6 +48,14 @@ public class LoginCrearUsuario extends JFrame {
 
     }
 
+    public JLabel getLbltittle() {
+        return lbltittle;
+    }
+
+    public void setLbltittle(JLabel lbltittle) {
+        this.lbltittle = lbltittle;
+    }
+
     public void cambiarIdiomaTexto(MensajeInternacionalizacionHandler mensajes) {
         setTitle(mensajes.get("loginCrear.titulo"));
         btnCrear.setText(mensajes.get("loginCrear.btnCrear"));
@@ -56,6 +65,7 @@ public class LoginCrearUsuario extends JFrame {
         lblApellido.setText(mensajes.get("loginCrear.lblApellido"));
         lblUser.setText(mensajes.get("loginCrear.lblUser"));
         lblContra.setText(mensajes.get("loginCrear.lblContra"));
+        lbltittle.setText(mensajes.get("loginCrear.lbltittle"));
     }
 
     public JTextField getTxtNombre() {

@@ -59,6 +59,7 @@ public class CarritoEliminar extends JInternalFrame {
         for (Carrito carrito : lista) {
             modelo.addRow(new Object[]{
                     carrito.getCodigo(),
+                    carrito.getUsuario().getUsername(),
                     FormateadorUtils.formatearFecha(carrito.getFechaCreacion().getTime(), locale),
                     FormateadorUtils.formatearMoneda(carrito.calcularSubtotal(), locale),
                     FormateadorUtils.formatearMoneda(carrito.calcularIVA(), locale),

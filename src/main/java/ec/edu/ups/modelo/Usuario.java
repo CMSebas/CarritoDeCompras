@@ -1,9 +1,14 @@
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.excepciones.ContrasenaInvalidaException;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Usuario {
+public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String username;
     private String contrasenia;
     private Rol rol;
@@ -11,14 +16,14 @@ public class Usuario {
     private String nombre;
     private String apellido;
 
-    private String pregunta1;
-    private String pregunta2;
-    private String pregunta3;
+
     private List<String> respuestasSeguridad;
 
 
     public Usuario() {
     }
+
+    
 
     public Usuario(String nombre, String apellido, String username, String contrasenia) {
         this.nombre = nombre;
@@ -34,6 +39,42 @@ public class Usuario {
         this.username = username;
         this.contrasenia = contrasenia;
         this.rol = rol;
+    }
+
+    public boolean tieneMinimoDeRespuestas(List<Respuesta> respuestas) {
+        int contador = 0;
+        for (Respuesta r : respuestas) {
+            if (r.getUsuario().getUsername().equals(this.username)) {
+                contador++;
+            }
+        }
+        return contador >= 3;
+    }
+
+    public void validarCedula() throws Exception {
+        if (username == null || username.isEmpty()) {
+            throw new Exception("La cédula no puede estar vacía.");
+        }
+        if (username.length() != 10) {
+            throw new Exception("La cédula debe tener exactamente 10 dígitos.");
+        }
+        try {
+            Long.parseLong(username);
+        } catch (NumberFormatException e) {
+            throw new Exception("La cédula solo debe contener números.");
+        }
+    }
+
+    public void validarContrasena() throws ContrasenaInvalidaException {
+        if (contrasenia == null || contrasenia.isEmpty()) {
+            throw new ContrasenaInvalidaException("La contraseña no puede estar vacía.");
+        }
+        if (contrasenia.length() < 6 ||
+                !contrasenia.matches(".*[a-z].*") ||
+                !contrasenia.matches(".*[A-Z].*") ||
+                !contrasenia.matches(".*[@_\\-].*")) {
+            throw new ContrasenaInvalidaException("La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula y un símbolo (@ _ -).");
+        }
     }
 
     public List<String> getRespuestasSeguridad() {
@@ -84,29 +125,7 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getPregunta1() {
-        return pregunta1;
-    }
 
-    public void setPregunta1(String pregunta1) {
-        this.pregunta1 = pregunta1;
-    }
-
-    public String getPregunta2() {
-        return pregunta2;
-    }
-
-    public void setPregunta2(String pregunta2) {
-        this.pregunta2 = pregunta2;
-    }
-
-    public String getPregunta3() {
-        return pregunta3;
-    }
-
-    public void setPregunta3(String pregunta3) {
-        this.pregunta3 = pregunta3;
-    }
 
     @Override
     public String toString() {

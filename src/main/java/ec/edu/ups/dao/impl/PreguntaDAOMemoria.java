@@ -12,7 +12,7 @@ public class PreguntaDAOMemoria implements PreguntaDAO {
     public PreguntaDAOMemoria() {
         preguntas = new ArrayList<>();
 
-        // Agregar las 10 preguntas por defecto
+
         preguntas.add(new Pregunta(1, "¿Cuál es tu comida favorita?"));
         preguntas.add(new Pregunta(2, "¿Nombre de tu primera mascota?"));
         preguntas.add(new Pregunta(3, "¿Ciudad donde naciste?"));

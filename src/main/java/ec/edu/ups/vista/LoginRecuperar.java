@@ -13,11 +13,12 @@ public class LoginRecuperar extends JFrame {
     private JLabel lblPreguntaAle;
     private JButton btnVerificar;
     private JLabel lblUsuario;
+    private JLabel lbltittle;
     private Pregunta preguntaActual;
 
     public LoginRecuperar() {
         setContentPane(panelPrincipal);
-        setTitle("Recuperar Contraseña");
+        setTitle("loginRecuperar.lbltittle");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 300);
         setLocationRelativeTo(null);
@@ -33,6 +34,15 @@ public class LoginRecuperar extends JFrame {
         btnVerificar.setText(mensajes.get("loginRecuperar.btnVerificar"));
         btnVerificar.setIcon(new ImageIcon(getClass().getResource("/icons/aceptar.png")));
         btnRecuperar.setIcon(new ImageIcon(getClass().getResource("/icons/recuperar.png")));
+        lbltittle.setText(mensajes.get("loginRecuperar.lbltittle"));
+    }
+
+    public JLabel getLbltittle() {
+        return lbltittle;
+    }
+
+    public void setLbltittle(JLabel lbltittle) {
+        this.lbltittle = lbltittle;
     }
 
     public JButton getBtnVerificar() {
